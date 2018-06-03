@@ -1,0 +1,76 @@
+@import './colors.scss';
+
+nav {
+
+  background-color: $section;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+
+  ul {
+    list-style-type: none;
+    margin: 0.2em 0 0 0;
+    padding: 0;
+  }
+  & > ul {
+    display: flex;
+    flex-wrap: wrap;
+
+    .divider {
+      flex-grow: 1;
+
+      @media screen and (max-width: 600px) {
+        display: none;
+      }
+    }
+  }
+
+  li {
+    font-family: "Orbitron";
+    font-weight: 700;
+    color: white;
+    font-size: 1.1rem;
+    cursor: pointer;
+
+    &:hover > a, &:hover > span, &:hover > div {
+      color: darken(white, 50%) !important;
+    }
+
+    & > a, & > span, & > div {
+      color: white;
+      padding: 1em 0.5em;
+      display: inline-block;
+    }
+
+    &:hover ul {
+      transform: scaleY(1);
+    }
+
+    & ul:hover {
+      transform: scaleY(1);
+    }
+
+    ul {
+      margin-top: -0.2em;
+      transform-origin: top center;
+      transform: scaleY(0);
+      overflow: hidden;
+      position: absolute;
+      background-color: $section;
+      li {
+        padding: 0.75em;
+        display: block;
+
+        &:hover {
+          color: darken(white, 50%) !important;
+
+        }
+      }
+
+      &:hover {
+        display: block;
+      }
+
+      transition: transform 0.2s;
+    }
+  }
+}

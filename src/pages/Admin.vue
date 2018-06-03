@@ -1,56 +1,61 @@
 <template>
   <main class="admin">
-      <h1>Admin Panel</h1>
-    <div v-if="register === false && login === false">
+    <h1>Admin Panel</h1>
+    <div v-if="$store.user.admin === true">
+      <h2>Home Page</h2>
+      <section class="edithome">
+        <form @submit.prevent="editHome">
+          <input v-model="home.title" type="text" placeholder="Title">
+          <textarea v-model="home.content" placeholder="Content"></textarea>
+          <button type="submit">Save</button>
+        </form>
+      </section>
       <h2>Competitions</h2>
-      <section class="competitions">
-        <table v-if="$store.competitions.length > 0">
-          <thead>
+      <competitions-panel ref="competitionsPanel" :reloadAdmin="reloadAdmin"></competitions-panel>
+      <div class="tabs">
+        <div class="tab" @click="updateCompetition(competition)" :class="{ active: competition.id === $store.competition.id }" v-for="competition in $store.competitions">{{ competition.name }}</div>
+      </div>
+      <h2 class="competition">{{ $store.competition.name }}</h2>
+      <section class="competition">
+        <h3>Challenges</h3>
+        <challenges-panel ref="challengesPanel" :reloadAdmin="reloadAdmin"></challenges-panel>
+        <h3>Users</h3>
+        <section class="users">
+          <table v-if="users.length > 0">
+            <thead>
             <tr>
               <th>ID</th>
-              <th>Name</th>
-              <th>Teams</th>
-              <th>Users</th>
+              <th>Email</th>
+              <th>Username</th>
+              <th>Team</th>
             </tr>
-          </thead>
-          <tbody>
-            <tr v-for="competition in $store.competitions">
-              <td>{{ competition.id }}</td>
-              <td>{{ competition.name }}</td>
-              <td>{{ competition.teams }}</td>
-              <td>{{ competition.users }}</td>
+            </thead>
+            <tbody>
+            <tr v-for="user in users">
+              <td>{{ user.id }}</td>
+              <td>{{ user.email }}</td>
+              <td>{{ user.username }}</td>
+              <td>{{ user.team ? user.team.name : 'None' }}</td>
             </tr>
-          </tbody>
-        </table>
-        <p v-if="$store.competitions.length === 0">No competitions found.</p>
-        <Dialog>
-          <template scope="dialog">
-            <form @submit.prevent="createCompetition(dialog)">
-              <input v-model="newCompetition.name" type="text" placeholder="Name">
-              <input v-model="newCompetition.startDate" name="start-date" type="date">
-              <input v-model="newCompetition.startTime" name="start-time" type="time">
-              <input v-model="newCompetition.endDate" name="end-date" type="date">
-              <input v-model="newCompetition.endTime" name="end-time" type="time">
-              <button type="reset" @click="resetNewCompetition(dialog)">Cancel</button>
-              <button type="submit">Create</button>
-            </form>
-          </template>
-        </Dialog>
+            </tbody>
+          </table>
+          <p v-if="users.length === 0">No users have been created yet.</p>
+        </section>
       </section>
     </div>
     <section v-if="register === true">
       <p>No admin accounts have been created yet.</p>
       <form @submit.prevent="registerAdmin">
-        <input v-model="adminRegister.email" placeholder="email" type="text">
-        <input v-model="adminRegister.username" placeholder="username" type="text">
-        <input v-model="adminRegister.password" placeholder="password" type="password">
+        <input v-model="adminRegister.email" placeholder="Email" type="text">
+        <input v-model="adminRegister.username" placeholder="Username" type="text">
+        <input v-model="adminRegister.password" placeholder="Password" type="password">
         <button type="submit">Sign Up</button>
       </form>
     </section>
-    <section v-if="login === true">
+    <section v-if="!$store.user.admin && register === false">
       <form @submit.prevent="loginAdmin">
-        <input v-model="adminLogin.username" placeholder="username" type="text">
-        <input v-model="adminLogin.password" placeholder="password" type="password">
+        <input v-model="adminLogin.username" placeholder="Username" type="text">
+        <input v-model="adminLogin.password" placeholder="Password" type="password">
         <button type="submit">Log In</button>
       </form>
     </section>
@@ -59,19 +64,13 @@
 
 <script>
 import Dialog from '@/components/Dialog'
+import CompetitionsPanel from '@/components/admin/CompetitionsPanel'
+import ChallengesPanel from '@/components/admin/ChallengesPanel'
 
 export default {
   data () {
     return {
-      newCompetition: {
-        name: '',
-        startDate: '',
-        endDate: '',
-        startTime: '',
-        endTime: ''
-      },
       register: null,
-      login: null,
       adminRegister: {
         email: '',
         username: '',
@@ -80,6 +79,11 @@ export default {
       adminLogin: {
         username: '',
         password: ''
+      },
+      users: [],
+      home: {
+        title: '',
+        content: ''
       }
     }
   },
@@ -92,55 +96,53 @@ export default {
     }
   },
   components: {
-    Dialog
+    Dialog,
+    CompetitionsPanel,
+    ChallengesPanel
+  },
+  watch: {
+    '$store.competition' () {
+      this.reloadAdmin()
+    }
   },
   methods: {
-    createCompetition (dialog) {
-      this.post('/competitions', {
-        name: this.newCompetition.name,
-        start: this.newCompetitionStart,
-        end: this.newCompetitionEnd
-      }, false).then(function (data) {
-        if (dialog) { this.resetNewCompetition(dialog) }
-      }.bind(this))
-    },
-    resetNewCompetition (dialog) {
-      this.newCompetition.endTime = this.newCompetition.endDate = this.newCompetition.startTime = this.newCompetition.startDate = this.newCompetition.name = ''
-      if (dialog) { dialog.open(false) }
-    },
     registerAdmin () {
       this.post('/admin', {
         email: this.adminRegister.email,
         username: this.adminRegister.username,
         password: this.adminRegister.password
-      }, false).then(function (res) {
-        console.log(res)
-      })
+      }, false).then(this.reloadAdmin)
     },
     loginAdmin () {
       this.post('/admin/auth', {
         username: this.adminLogin.username,
         password: this.adminLogin.password
-      }, false)
+      }, false).then(this.reloadAdmin)
+    },
+    reloadAdmin () {
+      this.get('/admin', false).then(function (res) {
+        if (res.data.length === 0) {
+          this.register = true
+        }
+        this.register = false
+      }.bind(this))
+      this.get('/users').then(function (res) {
+        this.users = res.data
+      }.bind(this))
+      this.get('/home', false).then(function (res) {
+        this.home = res.data
+      }.bind(this))
+      this.$refs.challengesPanel.reloadPanel()
+      this.$refs.competitionsPanel.reloadPanel()
+      this.reload()
+    },
+    editHome () {
+      this.put('/home', this.home, false)
     }
   },
   beforeRouteEnter (to, from, next) {
     next(vm => {
-      vm.get('/admin', false).then(function (res) {
-        if (res.data.length === 0) {
-          this.register = true
-          this.login = false
-        } else {
-          this.register = false
-          vm.get('/admin/self', false).then(function (res) {
-            if (res.data.admin) this.login = false
-            else this.login = true
-          }.bind(vm)).catch(function () {
-            this.login = true
-          }.bind(vm))
-        }
-        next()
-      }.bind(vm))
+      vm.reloadAdmin()
     })
   }
 }

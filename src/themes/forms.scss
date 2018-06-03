@@ -1,0 +1,122 @@
+@mixin norm() {
+  background-color: $section;
+  color: white;
+  font-size: 1em;
+  margin: .25em 0 .5em 0;
+  padding: .35em;
+  border: none;
+}
+
+input[type=text], input[type=password], input[type=email], textarea, input[type=date], input[type=time], input[type=number] {
+  @include norm();
+  font-family: 'Titillium Web', serif;
+  width: calc(100% - 1em);
+  display: block;
+}
+
+input[type=date], input[type=time] {
+  width: calc(50% - 1em);
+  display: inline-block;
+}
+
+button + button {
+  margin-left: 0.5em;
+}
+
+input::placeholder, textarea::placeholder {
+  color: transparentize(white, 0.3);
+}
+
+input[type=submit], button {
+  @include norm();
+  padding: .5em 1em .5em 1em;
+  transition: background-color .3s;
+  background-color: $section;
+  font-family: 'Titillium Web', serif;
+
+  &.stationary {
+    text-transform: none;
+
+    &::after {
+      content: '';
+    }
+  }
+
+  &:hover {
+    background-color: $secondary !important;
+  }
+
+  &:disabled {
+    background-color: $section;
+    pointer-events: none;
+  }
+
+  &:not(:disabled):hover {
+    cursor: pointer;
+  }
+}
+
+input, select {
+  font: inherit;
+}
+
+select {
+  @include norm();
+}
+
+.checkbox-container {
+  position: relative;
+  margin-left: 0.1em;
+  padding-left: 1.4em;
+  cursor: pointer;
+  font-weight: 300;
+
+  input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  input:checked ~ .checkmark {
+    background-color: $secondary;
+  }
+
+  input:checked ~ .checkmark:after {
+    display: block;
+  }
+
+  .checkmark {
+    position: absolute;
+    top: 0.2em;
+    left: 0;
+    height: 1em;
+    width: 1em;
+    background-color: $secondary;
+    border-radius: 0.1em;
+    border: 1px solid $secondary;
+
+    &:after {
+      content: "";
+      position: absolute;
+      display: none;
+
+      left: 0.245em;
+      top: 0.037em;
+      width: 0.3em;
+      height: 0.6em;
+      border: solid white;
+      border-width: 0 3px 3px 0;
+      transform: rotate(45deg);
+    }
+  }
+}
+
+input[type=number] {
+  @include norm();
+}
+
+label {
+  display: block;
+  font-weight: bold;
+}
+

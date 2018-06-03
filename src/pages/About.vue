@@ -1,7 +1,7 @@
 <template>
   <main class="about">
-    <h1>About</h1>
-    <section><p>v-ctf is a CTF platform.</p></section>
+    <h1>About</h1><h1>{{ $store.competition.name }}</h1>
+    <section v-html="$store.competition.about"></section>
   </main>
 </template>
 

@@ -3,8 +3,8 @@
     <h1>Login</h1>
     <section>
       <form @submit.prevent="login">
-        <input placeholder="username" :value="username" type="text">
-        <input placeholder="password" :value="password" type="password">
+        <input placeholder="Username" v-model="username" type="text">
+        <input placeholder="Password" v-model="password" type="password">
         <button>Log In</button>
       </form>
     </section>
@@ -24,9 +24,7 @@ export default {
     login () {
       this.post('/auth', { username: this.username, password: this.password }).then(function () {
         this.$router.push('/')
-      }.bind(this)).catch(function (error) {
-        console.log(error.response.data)
-      })
+      }.bind(this)).then(this.reload)
     }
   }
 }

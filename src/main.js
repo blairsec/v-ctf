@@ -21,6 +21,26 @@ Vue.mixin({
     get (route, competition) {
       return axios.get(config.API_URL + (competition === false ? '' : ('/competitions/' + this.$store.competition.id)) + route)
     },
+    patch (route, data, competition) {
+      var _csrf = this.randomString(64).replace(/[;, ]/g, '')
+      document.cookie = '_csrf=' + _csrf
+      return axios.patch(config.API_URL + (competition === false ? '' : ('/competitions/' + this.$store.competition.id)) + route,
+        Object.assign(data, { _csrf: _csrf }),
+        { withCredentials: true })
+    },
+    put (route, data, competition) {
+      var _csrf = this.randomString(64).replace(/[;, ]/g, '')
+      document.cookie = '_csrf=' + _csrf
+      return axios.put(config.API_URL + (competition === false ? '' : ('/competitions/' + this.$store.competition.id)) + route,
+        Object.assign(data, { _csrf: _csrf }),
+        { withCredentials: true })
+    },
+    deleteRequest (route, competition) {
+      var _csrf = this.randomString(64).replace(/[;, ]/g, '')
+      document.cookie = '_csrf=' + _csrf
+      return axios.delete(config.API_URL + (competition === false ? '' : ('/competitions/' + this.$store.competition.id)) + route,
+        { params: { _csrf: _csrf }, withCredentials: true })
+    },
     randomString (length) {
       var string = ''
       var crypto = window.crypto || window.msCrypto
@@ -30,6 +50,46 @@ Vue.mixin({
         string += String.fromCharCode((values[i] % (127 - 32)) + 32)
       }
       return string
+    },
+    logout () {
+      document.cookie = 'token =; Max-Age=0'
+      this.reload()
+    },
+    updateCompetition (competition) {
+      this.$store.competition = competition
+      localStorage.competition = competition.id
+      this.reload()
+    },
+    reload () {
+      var emptyUser = {
+        id: null,
+        username: null,
+        eligible: null,
+        created: null,
+        team: {
+          id: null,
+          name: null,
+          members: [],
+          eligible: null,
+          affiliation: null,
+          created: null,
+          score: null,
+          solves: []
+        }
+      }
+      this.get('/competitions', false).then(function (res) {
+        this.$store.competitions = res.data
+      }.bind(this)).then(() => this.get('/self', false)).then(function (res) {
+        this.$store.user = res.data.user
+        if ((this.$store.competition === null || this.$store.competition.id === res.data.competition.id) && res.data.competition) this.$store.competition = res.data.competition
+        else if (this.$store.user.admin === true) this.$store.competition = this.$store.competition || this.$store.competitions.filter(c => c.id === parseInt(localStorage.competition))[0] || this.$store.competitions[this.$store.competitions.length - 1]
+        else this.$store.user = emptyUser
+        this.$store.loaded = true
+      }.bind(this)).catch(function (data) {
+        this.$store.competition = this.$store.competition || this.$store.competitions.filter(c => c.id === parseInt(localStorage.competition))[0] || this.$store.competitions[this.$store.competitions.length - 1]
+        this.$store.loaded = true
+        this.$store.user = emptyUser
+      }.bind(this))
     }
   }
 })
@@ -63,15 +123,10 @@ new Vue({
       competition: null,
       competitions: [],
       loaded: false
-    }
+    },
+    refreshKey: 1
   },
   mounted () {
-    this.get('/competitions', false).then(function (res) {
-      this.$store.competitions = res.data
-      this.$store.competition = this.$store.competitions[this.$store.competitions.length-1]
-      this.$store.loaded = true
-    }.bind(this)).catch(function (data) {
-      this.$store.loaded = true
-    }.bind(this))
+    this.reload()
   }
 })

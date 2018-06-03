@@ -1,0 +1,84 @@
+@import './colors.scss';
+
+.challengeList {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+
+  .challenge {
+    flex-wrap: wrap;
+    background-color: $section;
+    transition: background-color 0.3s;
+    padding: 2em;
+    margin: 1em;
+    width: 12em;
+    cursor: pointer;
+
+    &.solved {
+      background-color: $primary;
+    }
+
+    &:hover {
+      background-color: $secondary;
+    }
+
+    *:last-child {
+      margin-bottom: 0;
+    }
+
+    .title {
+      margin-bottom: 0.3em;
+      font-size: 1.5em;
+    }
+
+    .value:after {
+      content: " points,"
+    }
+
+    .solves:after {
+      content: " solves"
+    }
+
+    .value, .solves {
+      display: inline;
+    }
+  }
+}
+
+.challengeModal {
+  .title, .category {
+    overflow-wrap: normal;
+    display: inline;
+  }
+
+  .category {
+    font-family: 'Orbitron';
+    font-size: 2em;
+  }
+
+  .category:before {
+    content: '\200b\2219';
+    font-weight: 700;
+    padding: 0.5em;
+  }
+
+  .value:before {
+    content: "";
+    display: block;
+    height: 0.6em;
+  }
+
+  .value, .solves {
+    display: inline;
+  }
+
+  .value:after {
+    content: " points, ";
+  }
+
+  .solves:after {
+    content: " solves";
+  }
+}

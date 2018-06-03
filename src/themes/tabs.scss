@@ -1,0 +1,35 @@
+div.tabs {
+  border-bottom: 1px solid $primary;
+  margin-bottom: 0.5em;
+
+  div.tab {
+    margin-right: 0.5em;
+
+    &.active {
+      background-color: $primary;
+      border-top: 1px solid $primary;
+      border-left: 1px solid $primary;
+      border-right: 1px solid $primary;
+    }
+
+    &:hover {
+      background-color: $primary;
+      border-top: 1px solid $primary;
+      border-left: 1px solid $primary;
+      border-right: 1px solid $primary;
+    }
+
+    display: inline-block;
+    cursor: pointer;
+
+    padding: 0.4em 0.8em;
+
+    background-color: $section;
+    border-top: 1px solid $section;
+    border-left: 1px solid $section;
+    border-right: 1px solid $section;
+    border-radius: 0.2em 0.2em 0 0;
+
+    transition: background-color 0.2s;
+  }
+}

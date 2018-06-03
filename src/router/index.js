@@ -2,7 +2,9 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/pages/Home'
 import About from '@/pages/About'
+import Scoreboard from '@/pages/Scoreboard'
 import Challenges from '@/pages/Challenges'
+import Profile from '@/pages/Profile'
 import Login from '@/pages/Login'
 import Signup from '@/pages/Signup'
 import Admin from '@/pages/Admin'
@@ -23,9 +25,19 @@ export default new Router({
       component: About
     },
     {
+      path: '/scoreboard',
+      name: 'Scoreboard',
+      component: Scoreboard
+    },
+    {
       path: '/challenges',
       name: 'Challenges',
       component: Challenges
+    },
+    {
+      path: '/profile',
+      name: 'Profile',
+      component: Profile
     },
     {
       path: '/login',

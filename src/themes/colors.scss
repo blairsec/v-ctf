@@ -1,0 +1,28 @@
+$background: #2e004b;
+$section: rgba(0, 0, 0, 0.5);
+$secondary: transparentize(#89dbff, 0.5);
+$primary: transparentize(#f469ff, 0.5);
+
+$background: #03260d;
+$section: rgba(0, 0, 0, 0.5);
+$secondary: transparentize(#ff002d, 0.5);
+$primary: transparentize(#00ff72, 0.5);
+
+$background: #011626;
+$section: rgba(0, 0, 0, 0.5);
+$primary: transparentize(#05f7ff, 0.5);
+$secondary: transparentize(#f9ff33, 0.5);
+
+@mixin glow($size, $color) {
+  $all: ();
+  @for $i from 1 through 5 {
+    $all: append($all, 0 0 ($i*$i*$size) + px $color, comma);
+  }
+  @warn $all;
+  text-shadow: $all;
+}
+
+:export {
+  primary: $primary;
+  secondary: $secondary;
+}

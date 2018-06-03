@@ -111,13 +111,13 @@ export default {
         email: this.adminRegister.email,
         username: this.adminRegister.username,
         password: this.adminRegister.password
-      }, false).then(this.reloadAdmin)
+      }, false).then(this.reload).then(this.reloadAdmin)
     },
     loginAdmin () {
       this.post('/admin/auth', {
         username: this.adminLogin.username,
         password: this.adminLogin.password
-      }, false).then(this.reloadAdmin)
+      }, false).then(this.reload).then(this.reloadAdmin)
     },
     reloadAdmin () {
       this.get('/admin', false).then(function (res) {
@@ -132,8 +132,10 @@ export default {
       this.get('/home', false).then(function (res) {
         this.home = res.data
       }.bind(this))
-      this.$refs.challengesPanel.reloadPanel()
-      this.$refs.competitionsPanel.reloadPanel()
+      if (this.$refs.challengesPanel && this.$refs.competitionsPanel) {
+        this.$refs.challengesPanel.reloadPanel()
+        this.$refs.competitionsPanel.reloadPanel()
+      }
       this.reload()
     },
     editHome () {

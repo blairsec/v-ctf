@@ -100,7 +100,7 @@ export default {
       this.newChallenge = {
         title: '',
         description: '',
-        value: 0,
+        value: null,
         author: '',
         flag: ''
       }

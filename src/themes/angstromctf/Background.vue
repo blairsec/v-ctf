@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import colors from '../themes/colors.scss'
+import colors from './colors.scss'
 
 // from https://gist.github.com/mjackson/5311256
 function rgbToHsl (r, g, b) {
@@ -36,7 +36,7 @@ function rgbToHsl (r, g, b) {
 }
 
 export default {
-  name: 'Bubbles',
+  name: 'Background',
   methods: {
     gaussian () {
       let sum = 0
@@ -78,8 +78,8 @@ export default {
       }
     },
     resize (canvas) {
-      canvas.width = document.body.clientWidth
-      canvas.height = document.body.clientHeight
+      canvas.width = window.innerWidth
+      canvas.height = window.innerHeight
     },
     setup (canvas, ctx) {
       this.resize(canvas)
@@ -98,7 +98,7 @@ export default {
   },
   data () {
     return {
-      STARS: 100,
+      STARS: 50,
       BASE_SPEED: 0.0002,
       stars: []
     }
@@ -109,9 +109,15 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+@import './colors.scss';
+
 canvas {
   position: fixed;
   z-index: -100;
+}
+
+canvas {
+  background-color: $background;
 }
 </style>

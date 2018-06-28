@@ -33,9 +33,9 @@
             <tbody>
             <tr v-for="user in users">
               <td>{{ user.id }}</td>
-              <td>{{ user.email }}</td>
-              <td>{{ user.username }}</td>
-              <td>{{ user.team ? user.team.name : 'None' }}</td>
+              <td class="long">{{ user.email }}</td>
+              <td class="long">{{ user.username }}</td>
+              <td class="long">{{ user.team ? user.team.name : 'None' }}</td>
             </tr>
             </tbody>
           </table>
@@ -123,6 +123,7 @@ export default {
       this.get('/admin', false).then(function (res) {
         if (res.data.length === 0) {
           this.register = true
+          return
         }
         this.register = false
       }.bind(this))
@@ -136,7 +137,6 @@ export default {
         this.$refs.challengesPanel.reloadPanel()
         this.$refs.competitionsPanel.reloadPanel()
       }
-      this.reload()
     },
     editHome () {
       this.put('/home', this.home, false)
@@ -144,6 +144,7 @@ export default {
   },
   beforeRouteEnter (to, from, next) {
     next(vm => {
+      vm.reload()
       vm.reloadAdmin()
     })
   }

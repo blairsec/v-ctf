@@ -1,0 +1,7 @@
+/* ADDING A NEW THEME:
+@import './themes/<theme name>/
+ */
+
+.angstromctf {
+  @import './themes/angstromctf/main.scss';
+}

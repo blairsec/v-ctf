@@ -7,6 +7,7 @@
         <th>Name</th>
         <th>Start</th>
         <th>End</th>
+        <th>Team Size</th>
         <th></th>
         <th></th>
       </tr>
@@ -17,12 +18,14 @@
         <td>{{ competition.name }}</td>
         <td>{{ new Date(competition.start).toLocaleString() }}</td>
         <td>{{ new Date(competition.end).toLocaleString() }}</td>
+        <td>{{ typeof competition.teamSize === "number" ? competition.teamSize : "None" }}</td>
         <td class="action edit">
           <Dialog icon="far fa-edit" :iconAction="function () { this(competition) }.bind(updateNewCompetition)">
             <template slot-scope="dialog">
               <form @submit.prevent="editCompetition(competition, dialog)">
                 <input v-model="newCompetition.name" type="text" placeholder="Name">
                 <textarea v-model="newCompetition.about" type="text" placeholder="About"></textarea>
+                <input v-model.number="newCompetition.teamSize" type="number" placeholder="Team Size">
                 <label>Start Time</label>
                 <input v-model="newCompetition.startDate" name="start-date" type="date">
                 <input v-model="newCompetition.startTime" name="start-time" type="time">
@@ -52,6 +55,7 @@
         <form @submit.prevent="createCompetition(dialog)">
           <input v-model="newCompetition.name" type="text" placeholder="Name">
           <textarea v-model="newCompetition.about" type="text" placeholder="About"></textarea>
+          <input v-model.number="newCompetition.teamSize" type="number" placeholder="Team Size">
           <label>Start Time</label>
           <input v-model="newCompetition.startDate" name="start-date" type="date">
           <input v-model="newCompetition.startTime" name="start-time" type="time">
@@ -79,7 +83,8 @@ export default {
         startDate: '',
         endDate: '',
         startTime: '',
-        endTime: ''
+        endTime: '',
+        teamSize: null
       }
     }
   },
@@ -113,7 +118,8 @@ export default {
         name: this.newCompetition.name,
         about: this.newCompetition.about,
         start: this.newCompetitionStart,
-        end: this.newCompetitionEnd
+        end: this.newCompetitionEnd,
+        teamSize: this.newCompetition.teamSize
       }, false).then(function (data) {
         if (dialog) { this.resetNewCompetition(dialog) }
       }.bind(this)).then(this.reloadAdmin)
@@ -123,7 +129,8 @@ export default {
         name: this.newCompetition.name,
         about: this.newCompetition.about,
         start: this.newCompetitionStart,
-        end: this.newCompetitionEnd
+        end: this.newCompetitionEnd,
+        teamSize: this.newCompetition.teamSize
       }, false).then(function (data) {
         if (dialog) { this.resetNewCompetition(dialog) }
       }.bind(this)).then(this.reloadAdmin)

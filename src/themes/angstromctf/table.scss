@@ -4,12 +4,22 @@ table {
   padding-bottom: 0.5em;
 }
 
+
+tr {
+  width: 100%;
+  overflow-x: scroll;
+}
+
 th {
   text-align: left;
 }
 
 tbody tr:nth-child(odd), table > tr:nth-child(odd) {
   background-color: $section;
+}
+
+td.long {
+  word-break: break-all;
 }
 
 td, th {

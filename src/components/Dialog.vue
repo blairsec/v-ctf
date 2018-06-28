@@ -2,10 +2,14 @@
   <div>
     <button @click="dialogOpen(true)" v-if="buttonText">{{ buttonText }}</button>
     <i class="action" @click="dialogOpen(true); typeof iconAction === 'function' ? iconAction() : null" :class="icon" v-if="icon"></i>
-    <dialog :open="open" :class="{ finished: finished }">
-      <slot :open="dialogOpen"></slot>
-    </dialog>
-    <div class="dialogbg" v-if="open" @click="dialogOpen(false)"></div>
+    <transition name="dialog">
+      <dialog :open="open" v-if="open">
+        <slot :open="dialogOpen"></slot>
+      </dialog>
+    </transition>
+    <transition name="dialogbg">
+      <div class="dialogbg" v-if="open" @click="dialogOpen(false)"></div>
+    </transition>
   </div>
 </template>
 
@@ -24,13 +28,7 @@ export default {
   ],
   methods: {
     dialogOpen (open) {
-      if (!open) {
-        this.finished = false
-        setTimeout(function () { this.open = false }.bind(this), 100)
-      } else {
-        this.open = true
-        setTimeout(function () { this.finished = true }.bind(this), 10)
-      }
+      this.open = open
     }
   }
 }

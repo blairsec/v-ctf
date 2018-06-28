@@ -18,7 +18,7 @@
         <td>{{ challenge.title }}</td>
         <td>{{ challenge.value }}</td>
         <td>{{ challenge.category }}</td>
-        <td>{{ challenge.description }}</td>
+        <td class="long">{{ challenge.description }}</td>
         <td class="action edit">
           <Dialog icon="far fa-edit" :iconAction="function () { this(challenge) }.bind(updateNewChallenge)">
             <template slot-scope="dialog">
@@ -107,6 +107,7 @@ export default {
       if (dialog) { dialog.open(false) }
     },
     editChallenge (challenge, dialog) {
+      delete this.newChallenge.solves
       this.patch('/challenges/' + challenge.id, this.newChallenge).then(function (data) {
         if (dialog) { this.resetNewChallenge(dialog) }
       }.bind(this)).then(this.reloadAdmin)

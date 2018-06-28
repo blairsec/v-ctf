@@ -50,10 +50,24 @@ export default {
   },
   methods: {
     createTeam () {
-      this.post('/teams', { name: this.team.name, affiliation: this.team.affiliation, passcode: this.team.passcode })
+      this.post('/teams', { name: this.team.name, affiliation: this.team.affiliation, passcode: this.team.passcode }).then(function () {
+        this.alert('Success!', 'You have created a team.', 'success')
+        this.reload()
+      }.bind(this)).catch(function (error) {
+        if (error.response.data.message === 'invalid_values') this.alert('Whoops!', 'Make sure to fill out all required fields.', 'failure')
+        else if (error.response.data.message === 'team_already_exists') this.alert('Uh-oh!', 'That team name is already in use.', 'failure')
+      }.bind(this))
     },
     joinTeam () {
-      this.patch('/teams', { name: this.team.name, passcode: this.team.passcode })
+      this.patch('/teams', { name: this.team.name, passcode: this.team.passcode }).then(function () {
+        this.alert('Success!', 'You have joined a team.', 'success')
+        this.reload()
+      }.bind(this)).catch(function (error) {
+        if (error.response.data.message === 'invalid_values') this.alert('Whoops!', 'Make sure to fill out all required fields.', 'failure')
+        else if (error.response.data.message === 'incorrect_passcode') this.alert('Whoops!', 'That passcode is incorrect.', 'failure')
+        else if (error.response.data.message === 'team_not_found') this.alert('Whoops!', 'That team does not exist.', 'failure')
+        else if (error.response.data.message === 'team_is_full') this.alert('Whoops!', 'That team is already full.', 'failure')
+      }.bind(this))
     }
   }
 }

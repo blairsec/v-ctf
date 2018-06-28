@@ -1,4 +1,4 @@
-@import './colors.scss';
+@import 'colors';
 
 .challengeList {
   list-style-type: none;
@@ -15,6 +15,7 @@
     margin: 1em;
     width: 12em;
     cursor: pointer;
+    height: 6.5em;
 
     &.solved {
       background-color: $primary;
@@ -80,5 +81,17 @@
 
   .solves:after {
     content: " solves";
+  }
+}
+
+.categoryList {
+  list-style-type: none;
+  .categoryTitle {
+    font-size: 0.8em;
+    float: left;
+    @include glow(2, $secondary);
+    width: 15em;
+    padding-top: 5em;
+    text-transform: uppercase;
   }
 }

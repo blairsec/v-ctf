@@ -1,0 +1,222 @@
+@import url('https://fonts.googleapis.com/css?family=Orbitron:400,700|Titillium+Web');
+
+.darr {
+  font-size: 0.9em;
+  position: relative;
+  bottom: 0.05em;
+}
+
+* {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+*:focus {
+  outline: none;
+}
+
+div#wrapper {
+  display: flex;
+  flex-flow: column;
+  min-height: 100vh;
+}
+
+main {
+  margin: 1em;
+  color: white;
+  margin-top: 1em;
+  padding: 2em;
+  background-color: $section;
+  flex: 1;
+}
+
+nav {
+  margin: 1em;
+  margin-bottom: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
+  margin-bottom: 0.5em;
+  font-family: "Orbitron", sans-serif;
+}
+
+h1 {
+  font-size: 3em;
+  margin-bottom: 0.4em;
+}
+
+h2 {
+  font-size: 2.2em;
+  font-weight: 300;
+}
+
+h3 {
+  font-size: 1.7em;
+  font-weight: 300;
+}
+
+h4 {
+  font-size: 1.3em;
+  font-weight: 300;
+}
+
+main > h1 {
+  @include glow(2, $primary);
+
+  @media screen and (max-width: 600px) {
+    font-size: 11vw;
+  }
+}
+
+section {
+  margin-bottom: 2em;
+}
+
+section, div, p {
+  font-family: "Titillium Web", sans-serif;
+  font-size: 1.05rem;
+}
+
+a {
+  color: darken(opacify($secondary, 1), 30%);
+  font-weight: 700;
+  text-decoration: inherit;
+
+  &:hover {
+    color: darken(opacify($secondary, 1), 50%)
+  }
+}
+
+.admin h2.competition {
+  padding-top: 0.5em;
+  @include glow(2, $primary);
+}
+
+.home {
+  & > section:first-of-type {
+    & > p:first-child {
+      margin-top: 0;
+    }
+  }
+}
+
+.about {
+  & > h1:first-of-type, & > h1:nth-of-type(2) {
+    display: inline-block;
+  }
+
+  & > h1:first-of-type {
+    padding-right: 0.35em;
+  }
+
+  & > h1:nth-of-type(2) {
+    @include glow(2, $secondary)
+  }
+
+  & > h1:nth-of-type(2) + section > p:first-child {
+    margin-top: 0;
+  }
+}
+
+.load-symbol {
+  width: 30vw;
+  height: 30vw;
+  text-align: center;
+  border-radius: 100%;
+  border-top: 10px solid $primary;
+  border-right: 10px solid $primary;
+  border-bottom: 10px solid black;
+  border-left: 10px solid black;
+  animation: spin 1.5s infinite linear;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading:after {
+  content: "Loading";
+  position: absolute;
+  padding-left: calc(50vw - 20em);
+  font-size: 3em;
+  font-family: "Orbitron";
+}
+
+@keyframes spin {
+  0% {
+    transform: rotateZ(0deg);
+  }
+  100% {
+    transform: rotateZ(360deg);
+  }
+}
+
+.alerts {
+  position: fixed;
+  right: 2em;
+  top: 5em;
+  z-index: 100;
+}
+
+.alert {
+  color: white;
+  width: 15em;
+  padding: 1em;
+  margin-bottom: 1em;
+
+  background-color: transparentize(opacify($primary, 1), 0.5);
+
+  &:hover {
+    background-color: transparentize(opacify($primary, 1), 0.4);
+  }
+
+  &.success {
+    background-color: transparentize(green, 0.5);
+
+    &:hover {
+      background-color: transparentize(green, 0.4);
+    }
+  }
+
+  &.failure {
+    background-color: transparentize(red, 0.5);
+
+    &:hover {
+      background-color: transparentize(red, 0.4);
+    }
+  }
+}
+
+.alert-title {
+  font-size: 1.5em;
+  font-weight: 700;
+  padding-top: 0.3em;
+  padding-bottom: 0.2em;
+  display: block;
+  font-family: Orbitron
+}
+
+.alert-close {
+  position: relative;
+  top: -1.2em;
+  left: 14em;
+}
+
+.alert-close:after {
+  content: "\0000D7";
+  position: absolute;
+  font-size: 2em;
+}
+
+.alert-close:hover {
+  cursor: pointer;
+}
+
+.alert-enter-active, .alert-leave-active {
+  transition: opacity .2s;
+}
+.alert-enter, .alert-leave-to {
+  opacity: 0;
+}

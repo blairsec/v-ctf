@@ -54,11 +54,16 @@ Vue.mixin({
     logout () {
       document.cookie = 'token =; Max-Age=0'
       this.reload()
+      this.alert('Success!', 'You have been logged out.', 'success')
     },
     updateCompetition (competition) {
       this.$store.competition = competition
       localStorage.competition = competition.id
       this.reload()
+    },
+    alert (title, message, type, duration) {
+      var alert = { title, message, type, duration }
+      this.$store.alerts.push(alert)
     },
     reload () {
       var emptyUser = {
@@ -84,9 +89,11 @@ Vue.mixin({
         if ((this.$store.competition === null || this.$store.competition.id === res.data.competition.id) && res.data.competition) this.$store.competition = res.data.competition
         else if (this.$store.user.admin === true) this.$store.competition = this.$store.competition || this.$store.competitions.filter(c => c.id === parseInt(localStorage.competition))[0] || this.$store.competitions[this.$store.competitions.length - 1]
         else this.$store.user = emptyUser
+        this.$store.competitionLoaded = true
         this.$store.loaded = true
       }.bind(this)).catch(function (data) {
         this.$store.competition = this.$store.competition || this.$store.competitions.filter(c => c.id === parseInt(localStorage.competition))[0] || this.$store.competitions[this.$store.competitions.length - 1]
+        this.$store.competitionLoaded = true
         this.$store.loaded = true
         this.$store.user = emptyUser
       }.bind(this))
@@ -118,11 +125,14 @@ new Vue({
           created: null,
           score: null,
           solves: []
-        }
+        },
+        theme: ''
       },
       competition: null,
       competitions: [],
-      loaded: false
+      loaded: false,
+      competitionLoaded: false,
+      alerts: []
     },
     refreshKey: 1
   },

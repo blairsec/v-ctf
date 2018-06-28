@@ -3,10 +3,10 @@
     <div class="chart-container">
       <svg id="graph" class="chart" transform="scale(1, -1)">
         <g v-for="line in svgLines">
-          <circle v-for="point in line.points.slice(1)" :cx="point[0]" :cy="point[1]" r="3"></circle>
+          <circle v-for="point in line.points.slice(1)" :cx="point[0]" :cy="point[1]" r="5"></circle>
           <polyline fill="none"
                     :alt="line.name"
-                    stroke-width="3"
+                    stroke-width="5"
                     :points="line.points.join(' ')"
           />
           <polyline @mouseover="showTooltip(line.name, line.score)"
@@ -54,54 +54,43 @@ export default {
   },
   methods: {
     updatePoints (teams, keepChallenges) {
-      var promise
-      if (!this.challenges || !keepChallenges) {
-        promise = this.get('/challenges')
-      } else {
-        promise = new Promise(function (resolve, reject) { resolve() })
+      this.teams = teams
+      var lines = []
+      for (var t = 0; t < teams.length; t++) {
+        if (teams[t].solves.length > 0) {
+          lines.push({
+            points: [[+new Date(teams[t].created) > +new Date(this.$store.competition.start) ? +new Date(teams[t].created) : +new Date(this.$store.competition.start), 0]],
+            name: teams[t].name,
+            score: teams[t].score
+          })
+          var score = 0
+          teams[t].solves.sort(function (a, b) { return +new Date(a.time) - +new Date(b.time) })
+          for (var s = 0; s < teams[t].solves.length; s++) {
+            score += teams[t].solves[s].challenge.value
+            var time = +new Date(teams[t].solves[s].time)
+            lines[lines.length - 1].points.push([
+              time,
+              score
+            ])
+          }
+        }
       }
-      promise.then(function (response) {
-        if (response) {
-          this.challenges = response.data
+      this.lines = lines
+      lines = []
+      for (var l = 0; l < this.lines.length; l++) {
+        lines[l] = this.lines[l]
+        for (var p = 0; p < lines[l].points.length; p++) {
+          lines[l].points[p] = [this.svgX(lines[l].points[p][0]), this.svgY(lines[l].points[p][1])]
         }
-        var challenges = this.challenges
-        this.teams = teams
-        var lines = []
-        for (var t = 0; t < teams.length; t++) {
-          if (teams[t].solves.length > 0) {
-            lines.push({
-              points: [[+new Date(teams[t].created), 0]],
-              name: teams[t].name,
-              score: teams[t].score
-            })
-            var score = 0
-            for (var s = 0; s < teams[t].solves.length; s++) {
-              score += challenges.filter(challenge => challenge.id === teams[t].solves[s].challenge.id)[0].value
-              var time = +new Date(teams[t].solves[s].time)
-              lines[lines.length - 1].points.push([
-                time,
-                score
-              ])
-            }
-          }
-        }
-        this.lines = lines
-        lines = []
-        for (var l = 0; l < this.lines.length; l++) {
-          lines[l] = this.lines[l]
-          for (var p = 0; p < lines[l].points.length; p++) {
-            lines[l].points[p] = [this.svgX(lines[l].points[p][0]), this.svgY(lines[l].points[p][1])]
-          }
-        }
-        this.svgLines = lines
-        var days = []
-        for (var timestamp = this.minX; timestamp < this.maxX; timestamp += 86400000) {
-          days.push(((new Date(timestamp)).getMonth() + 1).toString() + '/' + (new Date(timestamp)).getDate().toString())
-        }
-        var lastDay = ((new Date(this.maxX)).getMonth() + 1).toString() + '/' + (new Date(this.maxX)).getDate().toString()
-        if (days.indexOf(lastDay) === -1) { days.push(lastDay) }
-        this.days = days
-      }.bind(this))
+      }
+      this.svgLines = lines
+      var days = []
+      for (var timestamp = this.minX; timestamp < this.maxX; timestamp += 86400000) {
+        days.push(((new Date(timestamp)).getMonth() + 1).toString() + '/' + (new Date(timestamp)).getDate().toString())
+      }
+      var lastDay = ((new Date(this.maxX)).getMonth() + 1).toString() + '/' + (new Date(this.maxX)).getDate().toString()
+      if (days.indexOf(lastDay) === -1) { days.push(lastDay) }
+      this.days = days
     },
     svgX (x) {
       return (x - this.minX) / (this.maxX - this.minX) * (document.getElementById('graph').getBoundingClientRect().width - 20)
@@ -142,5 +131,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../themes/chart.scss';
+@import '../themes/angstromctf/chart';
 </style>

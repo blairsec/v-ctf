@@ -24,7 +24,10 @@ export default {
     login () {
       this.post('/auth', { username: this.username, password: this.password }).then(function () {
         this.$router.push('/')
-      }.bind(this)).then(this.reload)
+      }.bind(this)).then(this.reload).then(function () { this.alert('Success!', 'You have logged in.', 'success') }.bind(this)).catch(function (error) {
+        if (error.response.status === 401) this.alert('Uh-oh!', 'You couldn\'t be logged in. Wrong username or password?', 'failure')
+        else if (error.response.status === 400) this.alert('Uh-oh!', 'Make sure to fill out all required fields.', 'failure')
+      }.bind(this))
     }
   }
 }

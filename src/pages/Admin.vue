@@ -15,10 +15,10 @@
       <div class="tabs">
         <div class="tab" @click="updateCompetition(competition)" :class="{ active: competition.id === $store.competition.id }" v-for="competition in $store.competitions">{{ competition.name }}</div>
       </div>
-      <h2 class="competition">{{ $store.competition.name }}</h2>
-      <section class="competition">
+      <h2 class="competition" v-if="$store.competition">{{ $store.competition.name }}</h2>
+      <section class="competition" v-if="$store.competition">
         <h3>Challenges</h3>
-        <challenges-panel ref="challengesPanel" :reloadAdmin="reloadAdmin"></challenges-panel>
+        <challenges-panel v-if="$store.competition" ref="challengesPanel" :reloadAdmin="reloadAdmin"></challenges-panel>
         <h3>Users</h3>
         <section class="users">
           <table v-if="users.length > 0">
@@ -127,9 +127,11 @@ export default {
         }
         this.register = false
       }.bind(this))
-      this.get('/users').then(function (res) {
-        this.users = res.data
-      }.bind(this))
+      if (this.$store.competition) {
+        this.get('/users').then(function (res) {
+          this.users = res.data
+        }.bind(this))
+      }
       this.get('/home', false).then(function (res) {
         this.home = res.data
       }.bind(this))

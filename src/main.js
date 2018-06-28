@@ -87,7 +87,7 @@ Vue.mixin({
       }.bind(this)).then(() => this.get('/self', false)).then(function (res) {
         this.$store.user = res.data.user
         if ((this.$store.competition === null || this.$store.competition.id === res.data.competition.id) && res.data.competition) this.$store.competition = res.data.competition
-        else if (this.$store.user.admin === true) this.$store.competition = this.$store.competition || this.$store.competitions.filter(c => c.id === parseInt(localStorage.competition))[0] || this.$store.competitions[this.$store.competitions.length - 1]
+        else if (this.$store.user.admin === true) this.$store.competition = this.$store.competition || this.$store.competitions.filter(c => c.id === parseInt(localStorage.competition))[0] || this.$store.competitions[this.$store.competitions.length - 1] || null
         else this.$store.user = emptyUser
         this.$store.competitionLoaded = true
         this.$store.loaded = true

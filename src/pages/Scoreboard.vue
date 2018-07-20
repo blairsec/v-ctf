@@ -73,7 +73,15 @@ export default {
         if (!this.$store.loaded) {
           this.$store.loaded = true
           this.loadTeams(false)
-        } else this.$refs.chart.updatePoints(this.teams.slice(0, 10))
+        } else {
+          var chartTeams = this.teams.slice(0,10)
+          for (var i = 0; i < chartTeams.length; i++) {
+            chartTeams[i] = this.get('/teams/'+chartTeams[i].id)
+          }
+          Promise.all(chartTeams).then(function (responseList) {
+            this.$refs.chart.updatePoints(responseList.map(res => res.data))
+          }.bind(this))
+        }
       }.bind(this))
     },
     number (teams) {
@@ -81,7 +89,7 @@ export default {
         if (a.score !== b.score) {
           return b.score - a.score
         } else {
-          return Math.max(...a.solves.map(solve => +new Date(solve.time))) - Math.max(...b.solves.map(solve => +new Date(solve.time)))
+          return +new Date(a.lastSolve) - +new Date(b.lastSolve)
         }
       })
     }

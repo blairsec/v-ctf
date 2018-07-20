@@ -9,7 +9,7 @@
             <h1 class="title">{{ challenge.title }}</h1>
             <div class="category">{{ challenge.category }}</div>
             <div class="value">{{ challenge.value }}</div>
-            <div class="solves">{{ challenge.solves.length }}</div>
+            <div class="solves">{{ challenge.solves }}</div>
           </li>
         </ul>
       </ul>
@@ -17,7 +17,7 @@
         <template slot-scope="dialog">
           <h1 class="title">{{ challenge.title }}</h1><span class="category">{{ challenge.category }}</span>
           <div class="value">{{ challenge.value }}</div>
-          <div class="solves">{{ challenge.solves.length }}</div>
+          <div class="solves">{{ challenge.solves }}</div>
           <p class="description" v-html="challenge.description"></p>
           <form @submit.prevent="submitFlag" :id="challenge.id">
             <input type="text" class="flagInput" placeholder="Flag" v-model="flagInput" v-if="$store.user.id && $store.user.team && !$store.user.team.solves.filter(s => s.challenge.id === challenge.id)[0]">
@@ -61,6 +61,7 @@ export default {
     getChallenges () {
       this.get('/challenges').then(function (res) {
         this.challenges = res.data
+        this.challenges.sort(function (a, b) { return a.value - b.value })
         this.$store.loaded = true
       }.bind(this))
     },

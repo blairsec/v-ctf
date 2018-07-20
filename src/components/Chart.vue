@@ -61,7 +61,7 @@ export default {
           lines.push({
             points: [[+new Date(teams[t].created) > +new Date(this.$store.competition.start) ? +new Date(teams[t].created) : +new Date(this.$store.competition.start), 0]],
             name: teams[t].name,
-            score: teams[t].score
+            score: teams[t].solves.map(s => s.challenge.value).reduce((a, b) => a+b, 0)
           })
           var score = 0
           teams[t].solves.sort(function (a, b) { return +new Date(a.time) - +new Date(b.time) })

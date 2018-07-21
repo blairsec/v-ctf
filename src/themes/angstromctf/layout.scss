@@ -64,7 +64,7 @@ main > h1 {
   @include glow(2, $primary);
 
   @media screen and (max-width: 600px) {
-    font-size: 11vw;
+    font-size: 10vw;
   }
 }
 

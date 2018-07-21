@@ -55,6 +55,7 @@ nav {
       transform: scaleY(0);
       overflow: hidden;
       position: absolute;
+      z-index: 1000;
       background-color: $section;
       li {
         padding: 0.75em;

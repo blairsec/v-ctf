@@ -13,13 +13,13 @@
 
   .challenge {
     flex-wrap: wrap;
-    background-color: $section;
+    background-color: $foreground;
     transition: background-color 0.3s;
     padding: 2em;
     margin: 1em;
     width: 12em;
     cursor: pointer;
-    height: 6.5em;
+    height: 7em;
 
     &.solved {
       background-color: $primary;

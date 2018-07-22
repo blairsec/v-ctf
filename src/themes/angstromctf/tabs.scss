@@ -24,10 +24,10 @@ div.tabs {
 
     padding: 0.4em 0.8em;
 
-    background-color: $section;
-    border-top: 1px solid $section;
-    border-left: 1px solid $section;
-    border-right: 1px solid $section;
+    background-color: $foreground;
+    border-top: 1px solid $foreground;
+    border-left: 1px solid $foreground;
+    border-right: 1px solid $foreground;
     border-radius: 0.2em 0.2em 0 0;
 
     transition: background-color 0.2s;

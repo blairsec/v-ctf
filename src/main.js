@@ -52,6 +52,7 @@ Vue.mixin({
       return string
     },
     logout () {
+      localStorage.removeItem('competition_' + this.$store.competition.id)
       document.cookie = 'token =; Max-Age=0'
       this.reload()
       this.alert('Success!', 'You have been logged out.', 'success')

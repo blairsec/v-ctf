@@ -74,9 +74,9 @@ export default {
           this.$store.loaded = true
           this.loadTeams(false)
         } else {
-          var chartTeams = this.teams.slice(0,10)
+          var chartTeams = this.teams.slice(0, 10)
           for (var i = 0; i < chartTeams.length; i++) {
-            chartTeams[i] = this.get('/teams/'+chartTeams[i].id)
+            chartTeams[i] = this.get('/teams/' + chartTeams[i].id)
           }
           Promise.all(chartTeams).then(function (responseList) {
             this.$refs.chart.updatePoints(responseList.map(res => res.data))

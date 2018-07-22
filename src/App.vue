@@ -3,7 +3,7 @@
     <background></background>
     <navbar v-if="$store.competitionLoaded"></navbar>
     <div class="alerts">
-      <alert v-for="alert in $store.alerts" :title="alert.title" :type="alert.type" :message="alert.message" :duration="alert.duration"></alert>
+      <alert v-for="(alert, index) in $store.alerts" :key="index" :title="alert.title" :type="alert.type" :message="alert.message" :duration="alert.duration"></alert>
     </div>
     <router-view v-if="$store.competitionLoaded" v-show="$store.loaded"/>
     <main class="loading" v-if="!$store.loaded">

@@ -49,7 +49,7 @@ export default {
   },
   computed: {
     categories () {
-      return this.challenges.map(c => c.category).filter(function (i, p) { return this.challenges.map(c => c.category).indexOf(i) === p}.bind(this))
+      return this.challenges.map(c => c.category).filter(function (i, p) { return this.challenges.map(c => c.category).indexOf(i) === p }.bind(this))
     }
   },
   watch: {

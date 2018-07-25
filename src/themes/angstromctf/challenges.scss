@@ -86,6 +86,23 @@
   .solves:after {
     content: " solves";
   }
+
+  .hint {
+    padding-left: 0.7em;
+    background-color: $section;
+    border: 0.1em solid black;
+    border-radius: 0.2em;
+    color: darken(white, 30%);
+    transform-origin: top center;
+    margin-top: 0;
+
+    &.challengeHintTransition-enter-active, &.challengeHintTransition-leave-active {
+      transition: transform 0.5s ease;
+    }
+    &.challengeHintTransition-enter, &.challengeHintTransition-leave-to {
+      transform: scaleY(0);
+    }
+  }
 }
 
 .categoryList {

@@ -19,6 +19,10 @@
           <div class="value">{{ challenge.value }}</div>
           <div class="solves">{{ challenge.solves }}</div>
           <p class="description" v-html="challenge.description"></p>
+          <button class="hintButton" @click="toggleHint(challenge.id)" v-if="challenge.hint">{{ showHint[challenge.id] ? 'Hide' : 'Show' }} Hint</button>
+          <transition name="challengeHintTransition">
+            <p class="hint" v-html="challenge.hint" v-if="challenge.hint && showHint[challenge.id]"></p>
+          </transition>
           <form @submit.prevent="submitFlag" :id="challenge.id">
             <input type="text" class="flagInput" placeholder="Flag" v-model="flagInput" v-if="$store.user.id && $store.user.team && !$store.user.team.solves.filter(s => s.challenge.id === challenge.id)[0]">
             <p v-if="!$store.user.id"><em>Create an account or log in to submit flags.</em></p>
@@ -41,7 +45,8 @@ export default {
   data () {
     return {
       challenges: [],
-      flagInput: ''
+      flagInput: '',
+      showHint: {}
     }
   },
   components: {
@@ -79,6 +84,10 @@ export default {
           this.alert('Nope!', 'Keep trying...', 'failure')
         }
       }.bind(this))
+    },
+    toggleHint (id) {
+      if (this.showHint[id] === undefined) this.$set(this.showHint, id, false)
+      this.showHint[id] = !this.showHint[id]
     }
   },
   mounted () {

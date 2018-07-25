@@ -95,12 +95,24 @@
     color: darken(white, 30%);
     transform-origin: top center;
     margin-top: 0;
+    max-height: 500px;
+    overflow: hidden;
 
-    &.challengeHintTransition-enter-active, &.challengeHintTransition-leave-active {
-      transition: transform 0.5s ease;
-    }
-    &.challengeHintTransition-enter, &.challengeHintTransition-leave-to {
+    &.challengeHintTransition-leave-to {
       transform: scaleY(0);
+      max-height: 0;
+    }
+    &.challengeHintTransition-leave-active {
+      transition: max-height 0.25s cubic-bezier(0, 1, 0, 0.79);
+      transform: scaleY(1);
+    }
+    &.challengeHintTransition-enter-active {
+      transition: transform 0.5s ease;
+      transition: max-height 1s ease;
+    }
+    &.challengeHintTransition-enter {
+      transform: scaleY(0);
+      max-height: 0;
     }
   }
 }

@@ -202,9 +202,10 @@ a {
   position: relative;
   top: -1.2em;
   left: 14em;
+  display: block;
 }
 
-.alert-close:after {
+.alert-close::after {
   content: "\0000D7";
   position: absolute;
   font-size: 2em;

@@ -83,6 +83,12 @@ export default {
         } else {
           this.alert('Nope!', 'Keep trying...', 'failure')
         }
+      }.bind(this)).catch(function (err) {
+        if (err.response.status === 400) {
+          this.alert('Nope!', 'Keep trying...', 'failure')
+        } else {
+          throw err
+        }
       }.bind(this))
     },
     toggleHint (id) {

@@ -60,7 +60,7 @@ Vue.mixin({
     updateCompetition (competition) {
       this.$store.competition = competition
       localStorage.competition = competition.id
-      if (!this.$store.user.admin) document.cookie = 'token=' + localStorage['competition_' + this.$store.competition.id]
+      if (!this.$store.user.admin && this.$store.competition) document.cookie = 'token=' + localStorage['competition_' + this.$store.competition.id]
       this.reload()
     },
     alert (title, message, type, duration) {
@@ -91,12 +91,12 @@ Vue.mixin({
         if ((this.$store.competition === null || this.$store.competition.id === res.data.competition.id) && res.data.competition) this.$store.competition = res.data.competition
         else if (this.$store.user.admin === true) this.$store.competition = this.$store.competition || this.$store.competitions.filter(c => c.id === parseInt(localStorage.competition))[0] || this.$store.competitions[this.$store.competitions.length - 1] || null
         else this.$store.user = emptyUser
-        if (!this.$store.user.admin) document.cookie = 'token=' + localStorage['competition_' + this.$store.competition.id]
+        if (!this.$store.user.admin && this.$store.competition) document.cookie = 'token=' + localStorage['competition_' + this.$store.competition.id]
         this.$store.competitionLoaded = true
         this.$store.loaded = true
       }.bind(this)).catch(function (data) {
         this.$store.competition = this.$store.competition || this.$store.competitions.filter(c => c.id === parseInt(localStorage.competition))[0] || this.$store.competitions[this.$store.competitions.length - 1]
-        if (!this.$store.user.admin) document.cookie = 'token=' + localStorage['competition_' + this.$store.competition.id]
+        if (!this.$store.user.admin && this.$store.competition) document.cookie = 'token=' + localStorage['competition_' + this.$store.competition.id]
         this.$store.competitionLoaded = true
         this.$store.loaded = true
         this.$store.user = emptyUser

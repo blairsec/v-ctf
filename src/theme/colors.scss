@@ -1,8 +1,10 @@
-$background: #0e0026;
-$section: rgba(0, 0, 0, 0.25);
 $foreground: rgba(0, 0, 0, 0.5);
-$secondary: transparentize(#89dbff, 0.5);
-$primary: transparentize(#f469ff, 0.5);
+$secondary: transparentize(#298fb2, 0);
+$primary: darken(transparentize(#b22bb0, 0), 5%);
+$background: desaturate(opacify(darken($secondary, 0%), 0.2), 0%);
+$section: rgba(0, 0, 0, 0.4);
+
+//$background: #111;
 
 /*$background: #03260d;
 $section: rgba(0, 0, 0, 0.5);

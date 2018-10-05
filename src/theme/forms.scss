@@ -12,6 +12,7 @@ input[type=text], input[type=password], input[type=email], textarea, input[type=
   font-family: 'Titillium Web', serif;
   width: calc(100% - 1em);
   display: block;
+  padding-left: 0.5em;
 }
 
 input[type=date], input[type=time] {
@@ -29,7 +30,7 @@ input::placeholder, textarea::placeholder {
 
 input[type=submit], button {
   @include norm();
-  padding: .5em 1em .5em 1em;
+  padding: .5em .7em .5em .7em;
   transition: background-color .3s;
   background-color: $foreground;
   font-family: 'Titillium Web', serif;
@@ -43,7 +44,7 @@ input[type=submit], button {
   }
 
   &:hover {
-    background-color: $primary !important;
+    background-color: $secondary !important;
   }
 
   &:disabled {
@@ -100,8 +101,8 @@ select {
       position: absolute;
       display: none;
 
-      left: 0.245em;
-      top: 0.037em;
+      left: 0.3em;
+      top: 0.02em;
       width: 0.3em;
       height: 0.6em;
       border: solid white;

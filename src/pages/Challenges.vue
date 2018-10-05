@@ -18,10 +18,10 @@
           <h1 class="title">{{ challenge.title }}</h1><span class="category">{{ challenge.category }}</span>
           <div class="value">{{ challenge.value }}</div>
           <div class="solves">{{ challenge.solves }}</div>
-          <p class="description" v-html="challenge.description"></p>
+          <p class="description" v-html="markdown(challenge.description)"></p>
           <button class="hintButton" @click="toggleHint(challenge.id)" v-if="challenge.hint">{{ showHint[challenge.id] ? 'Hide' : 'Show' }} Hint</button>
           <transition name="challengeHintTransition">
-            <p class="hint" v-html="challenge.hint" v-if="challenge.hint && showHint[challenge.id]"></p>
+            <p class="hint" v-html="markdown(challenge.hint)" v-if="challenge.hint && showHint[challenge.id]"></p>
           </transition>
           <form @submit.prevent="submitFlag" :id="challenge.id">
             <input type="text" class="flagInput" placeholder="Flag" v-model="flagInput" v-if="$store.user.id && $store.user.team && !$store.user.team.solves.filter(s => s.challenge.id === challenge.id)[0]">
@@ -39,6 +39,7 @@
 
 <script>
 import Dialog from '@/components/Dialog'
+import marked from 'marked'
 
 export default {
   name: 'Challenges',
@@ -94,6 +95,11 @@ export default {
     toggleHint (id) {
       if (this.showHint[id] === undefined) this.$set(this.showHint, id, false)
       this.showHint[id] = !this.showHint[id]
+    },
+    markdown (text) {
+      console.log(text)
+      console.log(marked(text))
+      return marked(text)
     }
   },
   mounted () {
@@ -104,5 +110,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '../themes/angstromctf/challenges';
+@import '../theme/challenges';
 </style>

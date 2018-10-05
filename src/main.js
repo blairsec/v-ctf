@@ -6,11 +6,15 @@ import router from './router'
 import VueStash from 'vue-stash'
 import axios from 'axios'
 import config from './config'
+import marked from 'marked'
 
 Vue.use(VueStash)
 
 Vue.mixin({
   methods: {
+    markdown (text) {
+      return marked(text)
+    },
     post (route, data, competition) {
       var _csrf = this.randomString(64).replace(/[;, ]/g, '')
       document.cookie = '_csrf=' + _csrf

@@ -1,9 +1,28 @@
 <template>
+  <div class="bg"></div>
+</template>
+
+<style lang="scss">
+@import './colors.scss';
+
+div.bg {
+  width: 100vw;
+  height: 100vh;
+  z-index: -1000000;
+  position: fixed;
+  background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url('./bg.png');
+  background-size: cover;
+}
+</style>
+
+<!--
+  <template>
   <canvas ref="canvas"></canvas>
 </template>
 
 <script>
 import colors from './colors.scss'
+console.log(colors)
 
 // from https://gist.github.com/mjackson/5311256
 function rgbToHsl (r, g, b) {
@@ -58,7 +77,7 @@ export default {
             r: 4 / d,
             vx: this.BASE_SPEED * this.gaussian(),
             vy: -this.BASE_SPEED * (4 / d),
-            h: [rgbToHsl(parseInt(colors.primary.split('(')[1].split(', ')[0]), parseInt(colors.primary.split('(')[1].split(', ')[1]), parseInt(colors.primary.split('(')[1].split(', ')[2]))[0] * 360, rgbToHsl(parseInt(colors.secondary.split('(')[1].split(', ')[0]), parseInt(colors.secondary.split('(')[1].split(', ')[1]), parseInt(colors.secondary.split('(')[1].split(', ')[2]))[0] * 360][Math.floor(Math.random() * 2)] + this.gaussian() * 50
+            h: [rgbToHsl(parseInt(colors.primary.slice(1, 3), 16), parseInt(colors.primary.slice(3, 5), 16), parseInt(colors.primary.slice(5, 7), 16))[0] * 360, rgbToHsl(parseInt(colors.secondary.slice(1, 3), 16), parseInt(colors.secondary.slice(3, 5), 16), parseInt(colors.secondary.slice(5, 7), 16))[0] * 360][Math.floor(Math.random() * 2)] + this.gaussian() * 50
           }
         }
       } else {
@@ -121,3 +140,4 @@ canvas {
   background-color: $background;
 }
 </style>
+-->

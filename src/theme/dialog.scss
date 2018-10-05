@@ -1,6 +1,6 @@
 dialog {
 
-  background-color: transparentize($background, 0.1);
+  background-color: darken($background, 10%);
   color: white;
   border: none;
   width: 50vw;

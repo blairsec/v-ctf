@@ -11,6 +11,7 @@
 <script>
 export default {
   props: [
+    'id',
     'title',
     'message',
     'type',
@@ -18,19 +19,22 @@ export default {
   ],
   data () {
     return {
-      show: true
+      show: true,
+      timeout: null
     }
   },
   methods: {
     close () {
-      this.show = false
+      console.log(this.id)
+      this.$store.alerts.splice(this.id, 1)
+      clearTimeout(this.timeout)
     },
     open () {
       this.show = true
     }
   },
   mounted () {
-    setTimeout(this.close, this.duration === undefined ? 5000 : this.duration)
+    this.timeout = setTimeout(this.close, this.duration === undefined ? 5000 : this.duration)
   }
 }
 </script>

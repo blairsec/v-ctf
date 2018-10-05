@@ -27,5 +27,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '../themes/angstromctf/navbar';
+@import '../theme/navbar';
 </style>

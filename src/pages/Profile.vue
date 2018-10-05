@@ -25,7 +25,7 @@
       </div>
       <div v-if="$store.user.team">
         <table>
-          <tr><td>Name</td><td>{{ $store.user.team.name }}</td></tr>
+          <tr><td>Name</td><td><router-link :to="'/teams/' + $store.user.team.id">{{ $store.user.team.name }}</router-link></td></tr>
           <tr><td>Eligible</td><td>{{ $store.user.team.eligible ? 'Yes' : 'No' }}</td></tr>
           <tr><td>Affiliation</td><td>{{ $store.user.team.affiliation }}</td></tr>
           <tr><td>Members</td><td>{{ $store.user.team.members.map(member => member.username).join(', ') }}</td></tr>

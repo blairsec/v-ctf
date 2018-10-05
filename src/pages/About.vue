@@ -1,7 +1,7 @@
 <template>
   <main class="about">
     <h1>About</h1><h1>{{ $store.competition.name }}</h1>
-    <section v-html="$store.competition.about"></section>
+    <section v-html="markdown($store.competition.about)"></section>
   </main>
 </template>
 

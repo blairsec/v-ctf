@@ -22,11 +22,11 @@
     height: 7em;
 
     &.solved {
-      background-color: $primary;
+      background-color: $secondary;
     }
 
     &:hover {
-      background-color: $secondary;
+      background-color: $primary;
     }
 
     *:last-child {
@@ -48,6 +48,10 @@
 
     .value, .solves {
       display: inline;
+    }
+
+    h1 {
+      margin-top: 0;
     }
   }
 }
@@ -88,12 +92,16 @@
     content: " solves";
   }
 
+  .flagInput {
+    width: calc(100% - 0.8rem);
+  }
+
   .hint {
     padding-left: 0.7em;
     background-color: $section;
-    border: 0.1em solid black;
+    border: 0.1em solid $section;
     border-radius: 0.2em;
-    color: darken(white, 30%);
+    color: white;
     transform-origin: top center;
     margin-top: 0;
     max-height: 500px;
@@ -127,6 +135,10 @@
     width: 15em;
     padding-top: 5em;
     text-transform: uppercase;
+
+    h2 {
+      margin-top: 0;
+    }
 
     @media only screen and (max-width: 700px) {
       float: none;

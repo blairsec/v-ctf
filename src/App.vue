@@ -3,11 +3,13 @@
     <background></background>
     <navbar v-if="$store.competitionLoaded"></navbar>
     <div class="alerts">
-      <alert v-for="(alert, index) in $store.alerts" :key="index" :title="alert.title" :type="alert.type" :message="alert.message" :duration="alert.duration"></alert>
+      <alert v-for="(alert, index) in $store.alerts.slice().reverse()" :id="$store.alerts.length - index - 1" :key="index" :title="alert.title" :type="alert.type" :message="alert.message" :duration="alert.duration"></alert>
     </div>
     <router-view v-if="$store.competitionLoaded" v-show="$store.loaded"/>
     <main class="loading" v-if="!$store.loaded">
-      <div class="load-symbol"></div>
+      <div class="load-symbol-container">
+        <div class="load-symbol"></div>
+      </div>
     </main>
   </div>
 </template>
@@ -16,7 +18,7 @@
 import Navbar from './components/Navbar'
 import 'details-element-polyfill'
 import 'dialog-polyfill'
-import Background from './themes/angstromctf/Background'
+import Background from './theme/Background'
 import Alert from './components/Alert'
 
 export default {
@@ -30,7 +32,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import 'themes/angstromctf/main.scss';
+@import 'theme/main.scss';
 
 html, body {
   margin: 0;

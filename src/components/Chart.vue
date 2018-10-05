@@ -90,6 +90,17 @@ export default {
       }
       var lastDay = ((new Date(this.maxX)).getMonth() + 1).toString() + '/' + (new Date(this.maxX)).getDate().toString()
       if (days.indexOf(lastDay) === -1) { days.push(lastDay) }
+      if (days.length > 10) {
+        var remove = Math.abs(10 - Math.ceil(days.length / 10))
+        for (var d = 0, i = 0; i < days.length; d++) {
+          if (d % remove !== 0) {
+            days.splice(i, 1)
+            i--
+          }
+          i++
+        }
+      }
+      console.log(days.length)
       this.days = days
     },
     svgX (x) {
@@ -131,5 +142,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../themes/angstromctf/chart';
+@import '../theme/chart';
 </style>

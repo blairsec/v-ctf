@@ -88,6 +88,7 @@ export default {
       }.bind(this)).catch(function (err) {
         if (err.response.data.message === 'competition_not_started') {
           this.competitionNotStarted = true
+          this.challenges = []
           this.$store.loaded = true
         }
       }.bind(this))

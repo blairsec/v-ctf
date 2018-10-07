@@ -83,6 +83,9 @@ export default {
       }.bind(this))
     },
     showChallenge (id) {
+      this.toggleSolves(id, true)
+      this.toggleHint(id, true)
+      this.flagInput = ''
       this.$refs['dialog' + id.toString()][0].dialogOpen(true)
     },
     submitFlag (event) {
@@ -103,21 +106,23 @@ export default {
         }
       }.bind(this))
     },
-    toggleHint (id) {
+    toggleHint (id, hide) {
+      if (hide) { this.$set(this.showHint, id, false); return }
       if (this.showHint[id] === undefined) this.$set(this.showHint, id, false)
       this.showHint[id] = !this.showHint[id]
     },
-    toggleSolves (id) {
-      this.get('/challenges/' + id).then(res => {
-        this.challengeSolves = res.data.solves
-        this.challengeSolves.sort(function (a, b) { return +new Date(a.time) - +new Date(b.time) })
-        if (this.showSolves[id] === undefined) this.$set(this.showSolves, id, false)
-        this.showSolves[id] = !this.showSolves[id]
-      })
+    toggleSolves (id, hide) {
+      if (this.showSolves[id] || hide) this.$set(this.showSolves, id, false)
+      else {
+        this.get('/challenges/' + id).then(res => {
+          this.challengeSolves = res.data.solves
+          this.challengeSolves.sort(function (a, b) { return +new Date(a.time) - +new Date(b.time) })
+          if (this.showSolves[id] === undefined) this.$set(this.showSolves, id, false)
+          this.showSolves[id] = !this.showSolves[id]
+        })
+      }
     },
     markdown (text) {
-      console.log(text)
-      console.log(marked(text))
       return marked(text)
     }
   },

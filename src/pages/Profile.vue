@@ -69,6 +69,16 @@ export default {
         else if (error.response.data.message === 'team_is_full') this.alert('Whoops!', 'That team is already full.', 'failure')
       }.bind(this))
     }
+  },
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      if (!vm.$store.user.id) { next('/login') }
+    })
+  },
+  watch: {
+    '$store.user.id': function () {
+      if (!this.$store.user.id) { this.$router.push('/login') }
+    }
   }
 }
 </script>

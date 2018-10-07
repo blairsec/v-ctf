@@ -26,8 +26,7 @@ div#wrapper {
 
 main {
   color: white;
-  padding: 2em;
-  //background-color: $section;
+  padding: 1.5em 2em;
   flex: 1;
 }
 
@@ -186,7 +185,7 @@ table.scoreboard, main.profile section.team {
 
 .alerts {
   position: fixed;
-  right: 2em;
+  right: 1.5em;
   top: 3.5em;
   z-index: 100;
 }

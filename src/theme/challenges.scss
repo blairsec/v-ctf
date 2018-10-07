@@ -106,6 +106,7 @@
     margin-top: 0;
     max-height: 500px;
     overflow: hidden;
+    margin-bottom: 0.5em;
 
     &.challengeHintTransition-leave-to {
       transform: scaleY(0);
@@ -150,5 +151,32 @@
 
   @media only screen and (max-width: 700px) {
     padding-left: 0;
+  }
+}
+
+.hideSolves {
+  height: 0 !important;
+  overflow: hidden !important;
+  padding: 0;
+  margin: 0;
+ }
+
+.solveTable {
+  height: 10em;
+  display: block;
+  overflow: auto;
+  transition: height 0.3s;
+  margin-bottom: 1em;
+  table-layout: fixed;
+  td, th {
+    width: 1%;
+  }
+
+  a {
+    font-weight: bold;
+  }
+  a:hover {
+    text-decoration: inherit;
+    color: darken(#bcbcbc, 20%);
   }
 }

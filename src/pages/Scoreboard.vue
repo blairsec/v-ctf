@@ -1,3 +1,4 @@
+
 <template>
   <main class="scoreboard">
     <h1>Scoreboard</h1>
@@ -65,9 +66,8 @@ export default {
         var teams = res.data
         if (request !== false) this.origTeams = teams
         if (!this.showIneligible) {
-          teams = res.data.filter(team => team.eligible)
+          teams = res.data.filter(function (team) { return team.eligible && +new Date(team.created) < +new Date(this.$store.competition.end) }.bind(this))
         }
-        teams = teams.filter(function (team) { return +new Date(team.created) < +new Date(this.$store.competition.end) }.bind(this))
         this.number(teams)
         this.teams = teams
         if (!this.$store.loaded) {

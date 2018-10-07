@@ -178,6 +178,10 @@ table.scoreboard, main.profile section.team {
     color: lighten($primary, 20%);
     font-weight: bold;
   }
+  a:hover {
+    text-decoration: inherit;
+    color: lighten($primary, 5%);
+  }
 }
 
 .alerts {

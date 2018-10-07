@@ -10,7 +10,8 @@ div.bg {
   height: 100vh;
   z-index: -1000000;
   position: fixed;
-  background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url('./bg.png');
+  background: linear-gradient(darken($secondary, 10%), darken($primary, 10%));
+  background-image: url('./bg.png');
   background-size: cover;
 }
 </style>

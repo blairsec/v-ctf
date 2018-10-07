@@ -20,9 +20,18 @@
           <div class="solves">{{ challenge.solves }}</div>
           <p class="description" v-html="markdown(challenge.description)"></p>
           <button class="hintButton" @click="toggleHint(challenge.id)" v-if="challenge.hint">{{ showHint[challenge.id] ? 'Hide' : 'Show' }} Hint</button>
+          <button class="hintButton" @click="toggleSolves(challenge.id)">{{ showSolves[challenge.id] ? 'Hide' : 'Show' }} Solves</button>
           <transition name="challengeHintTransition">
             <p class="hint" v-html="markdown(challenge.hint)" v-if="challenge.hint && showHint[challenge.id]"></p>
           </transition>
+          <table class="solveTable" :class="{ 'hideSolves': !showSolves[challenge.id] }">
+            <thead>
+              <tr><th>Team</th><th>Affiliation</th></tr>
+            </thead>
+            <tbody style="max-height: 10em;">
+              <tr v-for="solve in challengeSolves"><td class="long"><router-link :to="'/teams/'+solve.team.id">{{ solve.team.name }}</router-link></td><td class="long">{{ solve.team.affiliation }}</td></tr>
+            </tbody>
+          </table>
           <form @submit.prevent="submitFlag" :id="challenge.id">
             <input type="text" class="flagInput" placeholder="Flag" v-model="flagInput" v-if="$store.user.id && $store.user.team && !$store.user.team.solves.filter(s => s.challenge.id === challenge.id)[0]">
             <p v-if="!$store.user.id"><em>Create an account or log in to submit flags.</em></p>
@@ -47,7 +56,9 @@ export default {
     return {
       challenges: [],
       flagInput: '',
-      showHint: {}
+      showHint: {},
+      showSolves: {},
+      challengeSolves: []
     }
   },
   components: {
@@ -95,6 +106,13 @@ export default {
     toggleHint (id) {
       if (this.showHint[id] === undefined) this.$set(this.showHint, id, false)
       this.showHint[id] = !this.showHint[id]
+    },
+    toggleSolves (id) {
+      this.get('/challenges/' + id).then(res => {
+        this.challengeSolves = res.data.solves
+        if (this.showSolves[id] === undefined) this.$set(this.showSolves, id, false)
+        this.showSolves[id] = !this.showSolves[id]
+      })
     },
     markdown (text) {
       console.log(text)

@@ -110,6 +110,7 @@ export default {
     toggleSolves (id) {
       this.get('/challenges/' + id).then(res => {
         this.challengeSolves = res.data.solves
+        this.challengeSolves.sort(function (a, b) { return +new Date(a.time) - +new Date(b.time) })
         if (this.showSolves[id] === undefined) this.$set(this.showSolves, id, false)
         this.showSolves[id] = !this.showSolves[id]
       })

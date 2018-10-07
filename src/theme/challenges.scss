@@ -164,7 +164,7 @@
 .solveTable {
   height: 10em;
   display: block;
-  overflow: auto;
+  overflow-y: scroll;
   transition: height 0.3s;
   margin-bottom: 1em;
   table-layout: fixed;

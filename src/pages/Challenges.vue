@@ -81,6 +81,7 @@ export default {
   methods: {
     getChallenges () {
       this.get('/challenges').then(function (res) {
+        this.competitionNotStarted = false
         this.challenges = res.data
         this.challenges.sort(function (a, b) { return a.value - b.value })
         this.$store.loaded = true

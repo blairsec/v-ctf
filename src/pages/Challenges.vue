@@ -2,6 +2,9 @@
   <main class="challenges">
     <h1>Challenges</h1>
     <section>
+      <div v-if="competitionNotStarted">
+        <p>The competition has not started yet. Come back later!</p>
+      </div>
       <ul class="categoryList" v-for="category in categories">
         <li class="categoryTitle"><h2>{{ category }}</h2></li>
         <ul class="challengeList">
@@ -58,7 +61,8 @@ export default {
       flagInput: '',
       showHint: {},
       showSolves: {},
-      challengeSolves: []
+      challengeSolves: [],
+      competitionNotStarted: false
     }
   },
   components: {
@@ -80,6 +84,11 @@ export default {
         this.challenges = res.data
         this.challenges.sort(function (a, b) { return a.value - b.value })
         this.$store.loaded = true
+      }.bind(this)).catch(function (err) {
+        if (err.response.data.message === 'competition_not_started') {
+          this.competitionNotStarted = true
+          this.$store.loaded = true
+        }
       }.bind(this))
     },
     showChallenge (id) {

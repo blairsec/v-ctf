@@ -22,7 +22,7 @@
       </svg>
       <div class="tooltip" id="tooltip">{{ tooltipMessage }}</div>
     </div>
-    <div class="labels"><div class="label" v-for="day in days">{{ day }}</div></div>
+    <div v-if="maxX >= minX" class="labels"><div class="label" v-for="day in days">{{ day }}</div></div>
   </div>
 </template>
 
@@ -100,7 +100,6 @@ export default {
           i++
         }
       }
-      console.log(days.length)
       this.days = days
     },
     svgX (x) {

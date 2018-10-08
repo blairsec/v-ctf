@@ -1,5 +1,5 @@
 <template>
-  <div id="wrapper" :class="$store.theme">
+  <div id="wrapper">
     <background></background>
     <navbar v-if="$store.competitionLoaded"></navbar>
     <div class="alerts">

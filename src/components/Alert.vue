@@ -25,8 +25,7 @@ export default {
   },
   methods: {
     close () {
-      console.log(this.id)
-      this.$store.alerts.splice(this.id, 1)
+      this.$store.alerts.splice(this.$store.alerts.length - 1 - this.id, 1)
       clearTimeout(this.timeout)
     },
     open () {

@@ -81,6 +81,10 @@ main > h1 {
   //font-weight: normal;
 }
 
+main section:last-child {
+  margin-bottom: 0;
+}
+
 section {
   margin-bottom: 2em;
 }
@@ -105,6 +109,21 @@ code {
   border-radius: 0.2em;
   color: white;
   padding: 0.2em 0.3em;
+}
+
+.discordtag {
+
+  input {
+    width: 60% !important;
+    margin: 0 !important;
+    display: inline-block !important;
+  }
+
+  button {
+    display: inline-block;
+    margin: 0.5em;
+    padding: 0.3em 0.6em;
+  }
 }
 
 .admin h2.competition {
@@ -133,8 +152,13 @@ code {
     @include glow(2, $secondary)
   }
 
-  & > h1:nth-of-type(2) + section > p:first-child {
-    margin-top: 0;
+  & > h1:nth-of-type(2) + section {
+    & > p:first-child {
+      margin-top: 0;
+    }
+    & > h3:first-child {
+      margin-top: 0.5em;
+    }
   }
 }
 

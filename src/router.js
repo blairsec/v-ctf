@@ -10,6 +10,7 @@ import Login from '@/pages/Login'
 import Signup from '@/pages/Signup'
 import Team from '@/pages/Team'
 import Admin from '@/pages/Admin'
+import Shell from '@/pages/Shell'
 import Error404 from '@/pages/Error404'
 
 Vue.use(Router)
@@ -61,6 +62,11 @@ export default new Router({
       path: '/teams/:id',
       name: 'Team',
       component: Team
+    },
+    {
+      path: '/shell',
+      name: 'Shell',
+      component: Shell
     },
     {
       path: '/404',

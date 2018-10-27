@@ -5,7 +5,7 @@
     <div class="alerts">
       <alert v-for="(alert, index) in $store.alerts.slice().reverse()" :id="$store.alerts.length - index - 1" :key="index" :title="alert.title" :type="alert.type" :message="alert.message" :duration="alert.duration"></alert>
     </div>
-    <router-view v-if="$store.competitionLoaded" v-show="$store.loaded"/>
+    <router-view ref="view" v-if="$store.competitionLoaded" v-show="$store.loaded"/>
     <main class="loading" v-if="!$store.loaded">
       <div class="load-symbol-container">
         <div class="load-symbol"></div>

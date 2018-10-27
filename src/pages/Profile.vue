@@ -5,6 +5,7 @@
       <table>
         <tr><td>Username</td><td>{{ $store.user.username }}</td></tr>
         <tr><td>Email</td><td>{{ $store.user.email }}</td></tr>
+        <tr><td>Discord Tag</td><td class="discordtag"><span v-if="discordtag">{{ discordtag }}</span><span v-if="!discordtag"><input v-model="discordtag_input" placeholder="username#0000" type="text" @keydown.enter="linkDiscord"><button @click="linkDiscord">Link</button></span></td></tr>
       </table>
     </section>
     <h1>Team</h1>
@@ -20,7 +21,7 @@
           <input v-model="team.affiliation" v-if="team.action === 'create'" type="text" placeholder="Affiliation">
           <input v-model="team.passcode" type="text" placeholder="Passcode">
           <button type="submit" v-if="team.action === 'join'">Join Team</button>
-          <button type="submit" v-if="team.action === 'create'">Create Team</button>
+          <button type="submit" v-if="team.action === 'create'">Create Team</button>f
         </form>
       </div>
       <div v-if="$store.user.team">
@@ -31,6 +32,14 @@
           <tr><td>Members</td><td>{{ $store.user.team.members.map(member => member.username).join(', ') }}</td></tr>
         </table>
       </div>
+    </section>
+    <h1>Shell</h1>
+    <section class="shell">
+      <p>Connect to the shell server on the <router-link to="/shell">shell</router-link> page, or ssh to <code>{{ shell_url }}</code>.</p>
+      <table>
+        <tr><td>Username</td><td><code>{{ shell.username }}</code></td></tr>
+        <tr><td>Password</td><td><code>{{ shell.password }}</code></td></tr>
+      </table>
     </section>
   </main>
 </template>
@@ -45,7 +54,14 @@ export default {
         affiliation: '',
         passcode: '',
         action: 'join'
-      }
+      },
+      shell: {
+        username: null,
+        password: null
+      },
+      shell_url: null,
+      discordtag: null,
+      discordtag_input: null
     }
   },
   methods: {
@@ -68,6 +84,27 @@ export default {
         else if (error.response.data.message === 'team_not_found') this.alert('Whoops!', 'That team does not exist.', 'failure')
         else if (error.response.data.message === 'team_is_full') this.alert('Whoops!', 'That team is already full.', 'failure')
       }.bind(this))
+    },
+    loadShell () {
+      this.get('/shell/team/' + this.$store.user.team.id).then(function (res) {
+        this.shell = res.data
+      }.bind(this))
+    },
+    linkDiscord () {
+      this.post('/discord/link', { tag: this.discordtag_input }).then(function (res) {
+        this.reload()
+      }.bind(this))
+    },
+    loadDiscord () {
+      this.get('/discord').then(function (res) {
+        this.discordtag = res.data.tag
+      }.bind(this)).catch(function (err) {
+        if (err) this.discordtag = null
+      }.bind(this))
+    },
+    reload () {
+      this.loadDiscord()
+      this.loadShell()
     }
   },
   beforeRouteEnter (to, from, next) {
@@ -78,7 +115,14 @@ export default {
   watch: {
     '$store.user.id': function () {
       if (!this.$store.user.id) { this.$router.push('/login') }
+    },
+    '$store.competition': function () {
+      this.reload()
     }
+  },
+  mounted () {
+    this.reload()
+    this.shell_url = process.env.VUE_APP_SHELL_URL
   }
 }
 </script>

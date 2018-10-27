@@ -43,6 +43,7 @@ Vue.mixin({
       this.$store.alerts.push(alert)
     },
     reload () {
+      if (localStorage.competition) this.$store.competition.id = parseInt(localStorage.competition)
       var emptyUser = {
         id: null,
         username: null,
@@ -61,6 +62,7 @@ Vue.mixin({
       }
       this.get('/competitions', false).then(function (res) {
         this.$store.competitions = res.data
+        if (this.$store.competition.id) this.$store.competition = this.$store.competitions.filter(c => c.id === this.$store.competition.id)[0]
       }.bind(this)).then(() => this.get('/self', false)).then(function (res) {
         this.$store.user = res.data.user
         if ((this.$store.competition === null || this.$store.competition.id === res.data.competition.id) && res.data.competition) this.$store.competition = res.data.competition
@@ -105,7 +107,7 @@ new Vue({
         },
         theme: ''
       },
-      competition: null,
+      competition: { id: null },
       competitions: [],
       loaded: false,
       competitionLoaded: false,

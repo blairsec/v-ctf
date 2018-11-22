@@ -39,7 +39,7 @@ Vue.mixin({
       this.reload()
     },
     alert (title, message, type, duration) {
-      var alert = { title, message, type, duration }
+      var alert = { title, message, type, duration, id: Math.floor(Math.random() * 100000) }
       this.$store.alerts.push(alert)
     },
     reload () {
@@ -60,21 +60,34 @@ Vue.mixin({
           solves: []
         }
       }
-      this.get('/competitions', false).then(function (res) {
-        this.$store.competitions = res.data
-        if (this.$store.competition.id) this.$store.competition = this.$store.competitions.filter(c => c.id === this.$store.competition.id)[0]
-      }.bind(this)).then(() => this.get('/self', false)).then(function (res) {
-        this.$store.user = res.data.user
-        if ((this.$store.competition === null || this.$store.competition.id === res.data.competition.id) && res.data.competition) this.$store.competition = res.data.competition
-        else if (this.$store.user.admin === true) this.$store.competition = this.$store.competition || this.$store.competitions.filter(c => c.id === parseInt(localStorage.competition))[0] || this.$store.competitions[this.$store.competitions.length - 1] || null
-        else this.$store.user = emptyUser
-        this.$store.competitionLoaded = true
-        this.$store.loaded = true
-      }.bind(this)).catch(function (data) {
-        this.$store.competition = this.$store.competition || this.$store.competitions.filter(c => c.id === parseInt(localStorage.competition))[0] || this.$store.competitions[this.$store.competitions.length - 1]
-        this.$store.competitionLoaded = true
-        this.$store.loaded = true
-        this.$store.user = emptyUser
+      this.get('/home', false).then(function (res) {
+        this.$store.name = res.data.title
+      }.bind(this)).then(function () {
+        this.get('/competitions', false).then(function (res) {
+          this.$store.competitions = res.data
+          if (process.env.VUE_APP_COMPETITION_SUBDOMAINS) {
+            var subdomain = location.host.split('.')[0]
+            var competitions = this.$store.competitions.filter(c => c.name.toLowerCase() == subdomain.toLowerCase())
+            if (competitions.length > 0) {
+              this.$store.competition.id = competitions[0].id
+            }
+          }
+          if (this.$store.competition.id) this.$store.competition = this.$store.competitions.filter(c => c.id === this.$store.competition.id)[0]
+        }.bind(this)).then(() => this.get('/self', false)).then(function (res) {
+          this.$store.user = res.data.user
+          if ((this.$store.competition === null || this.$store.competition.id === res.data.competition.id) && res.data.competition) this.$store.competition = res.data.competition
+          else if (this.$store.user.admin === true) this.$store.competition = this.$store.competition || this.$store.competitions.filter(c => c.id === parseInt(localStorage.competition))[0] || this.$store.competitions[this.$store.competitions.length - 1] || null
+          else this.$store.user = emptyUser
+          this.$store.competitionLoaded = true
+          this.$store.loaded = true
+        }.bind(this)).catch(function (data) {
+          this.$store.competition = (this.$store.competition.id ? this.$store.competition : false) || this.$store.competitions.filter(c => c.id === parseInt(localStorage.competition))[0] || this.$store.competitions[this.$store.competitions.length - 1]
+          this.$store.competitionLoaded = true
+          this.$store.loaded = true
+          this.$store.user = emptyUser
+        }.bind(this)).finally(function () {
+          this.$store.title = this.$route.name
+        }.bind(this))
       }.bind(this))
     }
   }
@@ -90,6 +103,7 @@ new Vue({
   template: '<App/>',
   data: {
     store: {
+      name: '',
       user: {
         id: null,
         username: null,
@@ -105,8 +119,8 @@ new Vue({
           score: null,
           solves: []
         },
-        theme: ''
       },
+      title: '',
       competition: { id: null },
       competitions: [],
       loaded: false,
@@ -117,5 +131,15 @@ new Vue({
   },
   mounted () {
     this.reload()
+  },
+  watch: {
+    'store.title' () {
+      document.title = this.$store.title + ' - ' + router.app.$store.name + (router.app.$store.competition ? ' ' + router.app.$store.competition.name : '')
+    }
   }
+})
+
+router.beforeEach(function (to, from, next) {
+  router.app.$store.title = to.name
+  next()
 })

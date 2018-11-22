@@ -21,10 +21,10 @@
           <input v-model="team.affiliation" v-if="team.action === 'create'" type="text" placeholder="Affiliation">
           <input v-model="team.passcode" type="text" placeholder="Passcode">
           <button type="submit" v-if="team.action === 'join'">Join Team</button>
-          <button type="submit" v-if="team.action === 'create'">Create Team</button>f
+          <button type="submit" v-if="team.action === 'create'">Create Team</button>
         </form>
       </div>
-      <div v-if="$store.user.team">
+      <div v-if="$store.user.team && $store.user.team.id">
         <table>
           <tr><td>Name</td><td><router-link :to="'/teams/' + $store.user.team.id">{{ $store.user.team.name }}</router-link></td></tr>
           <tr><td>Eligible</td><td>{{ $store.user.team.eligible ? 'Yes' : 'No' }}</td></tr>
@@ -33,8 +33,8 @@
         </table>
       </div>
     </section>
-    <h1>Shell</h1>
-    <section class="shell">
+    <h1 v-if="$store.user.team && $store.user.team.id">Shell</h1>
+    <section class="shell" v-if="$store.user.team && $store.user.team.id">
       <p>Connect to the shell server on the <router-link to="/shell">shell</router-link> page, or ssh to <code>{{ shell_url }}</code>.</p>
       <table>
         <tr><td>Username</td><td><code>{{ shell.username }}</code></td></tr>
@@ -86,25 +86,28 @@ export default {
       }.bind(this))
     },
     loadShell () {
-      this.get('/shell/team/' + this.$store.user.team.id).then(function (res) {
-        this.shell = res.data
-      }.bind(this))
+      if (this.$store.user.team && this.$store.user.team.id) {
+        return this.get('/shell/team/' + this.$store.user.team.id).then(function (res) {
+          this.shell = res.data
+        }.bind(this))
+      }
     },
     linkDiscord () {
-      this.post('/discord/link', { tag: this.discordtag_input }).then(function (res) {
+      return this.post('/discord/link', { tag: this.discordtag_input }).then(function (res) {
         this.reload()
       }.bind(this))
     },
     loadDiscord () {
-      this.get('/discord').then(function (res) {
+      return this.get('/discord').then(function (res) {
         this.discordtag = res.data.tag
       }.bind(this)).catch(function (err) {
         if (err) this.discordtag = null
       }.bind(this))
     },
-    reload () {
-      this.loadDiscord()
-      this.loadShell()
+    async reload () {
+      await this.loadDiscord()
+      await this.loadShell()
+      this.$store.loaded = true
     }
   },
   beforeRouteEnter (to, from, next) {
@@ -118,11 +121,15 @@ export default {
     },
     '$store.competition': function () {
       this.reload()
+    },
+    '$store.team.id': function () {
+      this.reload()
     }
   },
   mounted () {
-    this.reload()
+    this.$store.loaded = false
     this.shell_url = process.env.VUE_APP_SHELL_URL
+    this.reload()
   }
 }
 </script>

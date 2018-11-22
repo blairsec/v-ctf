@@ -15,7 +15,7 @@
       <h3>Score Graph</h3>
       <chart id="chart" ref="chart"></chart>
       <h3>Solves</h3>
-      <table>
+      <table v-if="team.solves.length > 0">
         <thead>
           <th>#</th>
           <th>Challenge</th>
@@ -33,6 +33,7 @@
           </tr>
         </tbody>
       </table>
+      <p v-if="team.solves.length === 0">This team hasn't solved anything yet.</p>
     </section>
   </main>
 </template>
@@ -47,7 +48,8 @@ export default {
         name: '',
         affiliation: '',
         eligible: null,
-        members: []
+        members: [],
+        solves: []
       }
     }
   },
@@ -61,6 +63,11 @@ export default {
         this.team = team.data
         this.team.solves.sort((a, b) => +new Date(a.time) - +new Date(b.time))
         this.$refs.chart.updatePoints([this.team])
+        this.$store.title = 'Team ' + this.team.name
+        if (!this.$store.loaded) {
+          this.$store.loaded = true
+          this.loadTeam()
+        }
       } catch (e) {
         if (e.response.status === 404) {
           this.$router.push({ path: '/404' })
@@ -70,8 +77,9 @@ export default {
       }
     }
   },
-  beforeRouteEnter (to, from, next) {
-    next(vm => vm.loadTeam())
+  mounted () {
+    this.$store.loaded = false
+    this.loadTeam()
   }
 }
 </script>

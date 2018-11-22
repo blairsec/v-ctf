@@ -11,11 +11,11 @@
 <script>
 export default {
   props: [
-    'id',
     'title',
     'message',
     'type',
-    'duration'
+    'duration',
+    'id'
   ],
   data () {
     return {
@@ -25,7 +25,7 @@ export default {
   },
   methods: {
     close () {
-      this.$store.alerts.splice(this.$store.alerts.length - 1 - this.id, 1)
+      this.$store.alerts.splice(this.$store.alerts.map((e, i) => [e.id, i]).filter(e => e[0] === this.id)[0][1], 1)
       clearTimeout(this.timeout)
     },
     open () {

@@ -5,10 +5,10 @@
       <div v-if="competitionNotStarted">
         <p>The competition has not started yet. Come back later!</p>
       </div>
-      <ul class="categoryList" v-for="category in categories">
+      <ul class="categoryList" v-for="(category, index) in categories" :key="index">
         <li class="categoryTitle"><h2>{{ category }}</h2></li>
         <ul class="challengeList">
-          <li class="challenge" :class="{ solved: $store.user.team && $store.user.team.solves.filter(s => s.challenge.id === challenge.id)[0] }" v-for="challenge in challenges" v-if="challenge.category === category" @click="showChallenge(challenge.id)">
+          <li class="challenge" :class="{ solved: $store.user.team && $store.user.team.solves.filter(s => s.challenge.id === challenge.id)[0] }" v-for="challenge in challenges" v-if="challenge.category === category" @click="showChallenge(challenge.id)" :key="challenge.id">
             <h1 class="title">{{ challenge.title }}</h1>
             <div class="category">{{ challenge.category }}</div>
             <div class="value">{{ challenge.value }}</div>
@@ -32,7 +32,7 @@
               <tr><th>Team</th><th>Affiliation</th></tr>
             </thead>
             <tbody style="max-height: 10em;">
-              <tr v-for="solve in challengeSolves"><td class="long"><router-link :to="'/teams/'+solve.team.id">{{ solve.team.name }}</router-link></td><td class="long">{{ solve.team.affiliation }}</td></tr>
+              <tr :key="index" v-for="(solve, index) in challengeSolves"><td class="long"><router-link :to="'/teams/'+solve.team.id">{{ solve.team.name }}</router-link></td><td class="long">{{ solve.team.affiliation }}</td></tr>
             </tbody>
           </table>
           <form @submit.prevent="submitFlag" :id="challenge.id">
@@ -97,6 +97,7 @@ export default {
       this.toggleSolves(id, true)
       this.toggleHint(id, true)
       this.flagInput = ''
+      this.challengeSolves = []
       this.$refs['dialog' + id.toString()][0].dialogOpen(true)
     },
     submitFlag (event) {

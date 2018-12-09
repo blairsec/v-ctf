@@ -134,7 +134,7 @@ new Vue({
   },
   watch: {
     'store.title' () {
-      document.title = this.$store.title + ' - ' + router.app.$store.name + (router.app.$store.competition ? ' ' + router.app.$store.competition.name : '')
+      document.title = (this.$store.title !== 'Home' ? (this.$store.title + ' | ') : '') + router.app.$store.name + (router.app.$store.competition ? ' ' + router.app.$store.competition.name : '')
     }
   }
 })

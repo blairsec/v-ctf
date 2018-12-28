@@ -3,8 +3,10 @@
     <h1>Login</h1>
     <section>
       <form @submit.prevent="login">
-        <input placeholder="Username" v-model="username" type="text">
-        <input placeholder="Password" v-model="password" type="password">
+        <small>Username</small>
+        <input placeholder="Username" v-model="username" type="text" required>
+        <small>Password</small>
+        <input placeholder="Password" v-model="password" type="password" required>
         <button>Log In</button>
       </form>
     </section>

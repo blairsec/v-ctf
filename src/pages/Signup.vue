@@ -5,8 +5,8 @@
       <form @submit.prevent="createUser">
         <small>Email</small>
         <input v-model="email" type="email" placeholder="Email address" required>
-        <small>Username</small>
-        <input v-model="username" placeholder="Username" type="text" required>
+        <small>Username (must contain only alphanumerics and underscores)</small>
+        <input v-model="username" placeholder="Username" type="text" required pattern="[A-Za-z0-9_]+">
         <small>Password (must be at least 8 characters long)</small>
         <input v-model="password" placeholder="Password" type="password" required pattern=".{8}.*">
         <label class="checkbox-container">I am eligible for prizes in this competition.

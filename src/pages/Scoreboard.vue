@@ -18,7 +18,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(team, index) in teams">
+          <tr v-for="(team, index) in teams" :key="team.id">
             <td>{{ index+1 }}</td>
             <td class="long"><router-link :to="'/teams/'+team.id">{{ team.name }}</router-link></td>
             <td class="long">{{ team.affiliation }}</td>
@@ -58,7 +58,7 @@ export default {
     loadTeams (request) {
       var promise
       if (request === false) {
-        promise = new Promise(function (resolve, reject) { resolve({data: this.origTeams}) }.bind(this))
+        promise = new Promise(function (resolve, reject) { resolve({ data: this.origTeams }) }.bind(this))
       } else {
         promise = this.get('/teams')
       }

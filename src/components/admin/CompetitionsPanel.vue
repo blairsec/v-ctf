@@ -13,7 +13,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr v-for="competition in $store.competitions">
+      <tr v-for="competition in $store.competitions" :key="competition.id">
         <td>{{ competition.id }}</td>
         <td>{{ competition.name }}</td>
         <td>{{ new Date(competition.start).toLocaleString() }}</td>

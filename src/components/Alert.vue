@@ -15,7 +15,8 @@ export default {
     'message',
     'type',
     'duration',
-    'id'
+    'id',
+    'object'
   ],
   data () {
     return {
@@ -25,7 +26,8 @@ export default {
   },
   methods: {
     close () {
-      this.$store.alerts.splice(this.$store.alerts.map((e, i) => [e.id, i]).filter(e => e[0] === this.id)[0][1], 1)
+      this.show = false
+      this.object.show = false
       clearTimeout(this.timeout)
     },
     open () {
@@ -34,6 +36,9 @@ export default {
   },
   mounted () {
     this.timeout = setTimeout(this.close, this.duration === undefined ? 5000 : this.duration)
+  },
+  beforeDestroy () {
+    clearTimeout(this.timeout)
   }
 }
 </script>

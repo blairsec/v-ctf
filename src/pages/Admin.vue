@@ -13,7 +13,7 @@
       <h2>Competitions</h2>
       <competitions-panel ref="competitionsPanel" :reloadAdmin="reloadAdmin"></competitions-panel>
       <div class="tabs">
-        <div class="tab" @click="updateCompetition(competition)" :class="{ active: competition.id === $store.competition.id }" v-for="competition in $store.competitions">{{ competition.name }}</div>
+        <div class="tab" @click="updateCompetition(competition)" :class="{ active: competition.id === $store.competition.id }" v-for="competition in $store.competitions" :key="competition.id">{{ competition.name }}</div>
       </div>
       <h2 class="competition" v-if="$store.competition">{{ $store.competition.name }}</h2>
       <section class="competition" v-if="$store.competition">
@@ -31,7 +31,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="user in users">
+            <tr v-for="user in users" :key="user.id">
               <td>{{ user.id }}</td>
               <td class="long">{{ user.email }}</td>
               <td class="long">{{ user.username }}</td>

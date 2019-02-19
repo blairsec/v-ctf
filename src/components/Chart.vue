@@ -2,8 +2,8 @@
   <div class="container-container">
     <div class="chart-container">
       <svg id="graph" class="chart" transform="scale(1, -1)">
-        <g v-for="line in svgLines">
-          <circle v-for="point in line.points.slice(1)" :cx="point[0]" :cy="point[1]" r="5"></circle>
+        <g v-for="(line, index) in svgLines" :key="index">
+          <circle v-for="(point, index) in line.points.slice(1)" :key="index" :cx="point[0]" :cy="point[1]" r="5"></circle>
           <polyline fill="none"
                     :alt="line.name"
                     stroke-width="5"
@@ -22,7 +22,7 @@
       </svg>
       <div class="tooltip" id="tooltip">{{ tooltipMessage }}</div>
     </div>
-    <div v-if="maxX >= minX" class="labels"><div class="label" v-for="day in days">{{ day }}</div></div>
+    <div v-if="maxX >= minX" class="labels"><div class="label" v-for="(day, index) in days" :key="index">{{ day }}</div></div>
   </div>
 </template>
 

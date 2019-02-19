@@ -5,6 +5,9 @@ module.exports = {
   configureWebpack: {
   	plugins: [
   		new CopyWebpackPlugin([{ from: 'src/theme/favicon.png', to: 'public/favicon.png' }])
-  	]
+  	],
+  	devServer: {
+  		disableHostCheck: true
+  	}
   }
 }

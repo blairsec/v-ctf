@@ -3,7 +3,7 @@
     <background></background>
     <navbar v-if="$store.competitionLoaded"></navbar>
     <div class="alerts">
-      <alert v-for="(alert, index) in $store.alerts.slice().reverse()" :id="alert.id" :key="index" :title="alert.title" :type="alert.type" :message="alert.message" :duration="alert.duration"></alert>
+      <alert v-for="alert in $store.alerts.slice().reverse()" :key="alert.id" :object="alert" v-if="alert.show !== false" :title="alert.title" :type="alert.type" :message="alert.message" :duration="alert.duration"></alert>
     </div>
     <router-view ref="view" v-if="$store.competitionLoaded" v-show="$store.loaded"/>
     <main class="loading" v-if="!$store.loaded">

@@ -13,7 +13,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr v-for="challenge in challenges">
+      <tr v-for="challenge in challenges" :key="challenge.id">
         <td>{{ challenge.id }}</td>
         <td>{{ challenge.title }}</td>
         <td>{{ challenge.value }}</td>

@@ -10,7 +10,7 @@
       </table>
       <h3>Members</h3>
       <ul>
-        <li v-for="member in team.members">{{ member.username }}</li>
+        <li v-for="member in team.members" :key="member.id">{{ member.username }}</li>
       </ul>
       <h3>Score Graph</h3>
       <chart id="chart" ref="chart"></chart>
@@ -24,7 +24,7 @@
           <th>User</th>
         </thead>
         <tbody>
-          <tr v-for="(solve, index) in team.solves">
+          <tr v-for="(solve, index) in team.solves" :key="index">
             <td>{{ index+1 }}</td>
             <td class="long">{{ solve.challenge.title }}</td>
             <td>{{ solve.challenge.value }}</td>

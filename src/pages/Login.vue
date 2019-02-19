@@ -5,7 +5,7 @@
       <form @submit.prevent="login">
         <small>Username</small>
         <input placeholder="Username" v-model="username" type="text" required>
-        <small>Password</small>
+        <small>Password <router-link to="/resetpassword">(Forgot password?)</router-link></small>
         <input placeholder="Password" v-model="password" type="password" required>
         <button>Log In</button>
       </form>

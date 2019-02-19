@@ -27,7 +27,7 @@ export default {
   name: 'Navbar',
   computed: {
     subdomains () { return process.env.VUE_APP_COMPETITION_SUBDOMAINS },
-    root () { return location.host.split(".").slice(1).join(".") }
+    root () { return location.host.split('.').slice(1).join('.') }
   }
 }
 </script>

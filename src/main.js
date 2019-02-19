@@ -67,7 +67,7 @@ Vue.mixin({
           this.$store.competitions = res.data
           if (process.env.VUE_APP_COMPETITION_SUBDOMAINS) {
             var subdomain = location.host.split('.')[0]
-            var competitions = this.$store.competitions.filter(c => c.name.toLowerCase() == subdomain.toLowerCase())
+            var competitions = this.$store.competitions.filter(c => c.name.toLowerCase() === subdomain.toLowerCase())
             if (competitions.length > 0) {
               this.$store.competition.id = competitions[0].id
             }
@@ -118,7 +118,7 @@ new Vue({
           created: null,
           score: null,
           solves: []
-        },
+        }
       },
       title: '',
       competition: { id: null },

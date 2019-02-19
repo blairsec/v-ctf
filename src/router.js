@@ -12,6 +12,8 @@ import Team from '@/pages/Team'
 import Admin from '@/pages/Admin'
 import Shell from '@/pages/Shell'
 import Error404 from '@/pages/Error404'
+import Password from '@/pages/Password'
+import Verify from '@/pages/Verify'
 
 Vue.use(Router)
 
@@ -67,6 +69,16 @@ export default new Router({
       path: '/shell',
       name: 'Shell',
       component: Shell
+    },
+    {
+      path: '/resetpassword',
+      name: 'Reset Password',
+      component: Password
+    },
+    {
+      path: '/verify',
+      name: 'Verify',
+      component: Verify
     },
     {
       path: '/404',

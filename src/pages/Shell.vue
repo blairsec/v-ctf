@@ -1,6 +1,6 @@
 <template>
     <main class="shell">
-      <iframe src="/shell.html" class="shellframe"></iframe>
+      <iframe :src="webshell_url" class="shellframe"></iframe>
       <p>Log in with the following credentials (note that you can't copy and paste):
       <ul><li>Username: <code>{{ shell.username }}</code></li>
       <li>Password: <code>{{ shell.password }}</code></li></ul></p>
@@ -28,7 +28,13 @@ export default {
       shell: {
         username: null,
         password: null
-      }
+      },
+      webshell_url: null
+    }
+  },
+  watch: {
+    '$store.user.id': function () {
+      if (!this.$store.user.id) { this.$router.push('/login') }
     }
   },
   methods: {
@@ -38,7 +44,13 @@ export default {
       }.bind(this))
     }
   },
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      if (!vm.$store.user.id) { next('/login') }
+    })
+  },
   mounted () {
+    this.webshell_url = process.env.VUE_APP_WEB_SHELL_URL
     this.loadShell()
   }
 }

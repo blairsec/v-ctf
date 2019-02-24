@@ -14,6 +14,7 @@ import Shell from '@/pages/Shell'
 import Error404 from '@/pages/Error404'
 import Password from '@/pages/Password'
 import Verify from '@/pages/Verify'
+import Chat from '@/pages/Chat'
 
 Vue.use(Router)
 
@@ -79,6 +80,11 @@ export default new Router({
       path: '/verify',
       name: 'Verify',
       component: Verify
+    },
+    {
+      path: '/chat',
+      name: 'Chat',
+      component: Chat
     },
     {
       path: '/404',

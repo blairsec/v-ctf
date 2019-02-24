@@ -39,7 +39,7 @@
           <button type="button" @click="switchingTeam = false" v-if="switchingTeam">Cancel</button>
         </form>
       </div>
-      <div v-if="($store.user.team && $store.user.team.id && !switchingTeam) && verified">
+      <div v-if="($store.user.team && $store.user.team.id && !switchingTeam)">
         <form @submit.prevent="saveTeam"><table>
           <tr><td>Name</td><td v-if="!editingTeam"><router-link :to="'/teams/' + $store.user.team.id">{{ $store.user.team.name }}</router-link></td><td v-if="editingTeam"><input type="text" v-model="$store.user.team.name" pattern="[ -~]+" maxlength=50></td></tr>
           <tr><td>Eligible</td><td>{{ $store.user.team.eligible ? 'Yes' : 'No' }}</td></tr>
@@ -52,7 +52,7 @@
           <button type="button" class="editteam" @click="switchingTeam = true" v-if="new Date($store.competition.start) > new Date()">Switch Teams</button>
         </div></form>
       </div>
-      <div v-if="verified === false">
+      <div v-if="verified === false && !$store.user.team">
         <p>You must verify your email before creating or joining a team.</p>
       </div>
     </section>

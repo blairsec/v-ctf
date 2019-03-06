@@ -44,6 +44,11 @@ export default {
         else if (error.response.data.message === 'username_email_conflict') this.alert('Uh-oh!', 'An account with that username or email already exists.', 'failure')
       }.bind(this))
     }
+  },
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      if (vm.$store.user.id) { next('/profile') }
+    })
   }
 }
 </script>

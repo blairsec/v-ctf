@@ -22,6 +22,13 @@ export default {
     getHome () {
       this.get('/home', false).then(function (res) {
         this.home = res.data
+        this.$nextTick(function () {
+          var scripts = document.querySelectorAll('.home > section')[0].getElementsByTagName('script')
+          for (var i = 0; i < scripts.length; i++) {
+            console.log(scripts[i])
+            eval(scripts[i].innerHTML)
+          }
+        })
       }.bind(this))
     },
     markdown (text) {

@@ -32,6 +32,16 @@ export default {
         else if (error.response.status === 400) this.alert('Uh-oh!', 'Make sure to fill out all required fields.', 'failure')
       }.bind(this))
     }
+  },
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      if (vm.$store.user.id) {
+        next({
+          path: '/profile',
+          replace: true
+        })
+      }
+    })
   }
 }
 </script>

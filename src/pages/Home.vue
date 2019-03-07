@@ -26,6 +26,7 @@ export default {
           var scripts = document.querySelectorAll('.home > section')[0].getElementsByTagName('script')
           for (var i = 0; i < scripts.length; i++) {
             console.log(scripts[i])
+            // eslint-disable-next-line
             eval(scripts[i].innerHTML)
           }
         })

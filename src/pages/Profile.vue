@@ -162,7 +162,12 @@ export default {
   },
   beforeRouteEnter (to, from, next) {
     next(vm => {
-      if (!vm.$store.user.id) { next('/login') }
+      if (!vm.$store.user.id) {
+        next({
+          path: '/login',
+          replace: true
+        })
+      }
     })
   },
   watch: {

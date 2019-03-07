@@ -47,7 +47,12 @@ export default {
   },
   beforeRouteEnter (to, from, next) {
     next(vm => {
-      if (vm.$store.user.id) { next('/profile') }
+      if (vm.$store.user.id) {
+        next({
+          path: '/profile',
+          replace: true
+        })
+      }
     })
   }
 }

@@ -63,10 +63,10 @@ export default {
         promise = this.get('/teams')
       }
       promise.then(function (res) {
-        var teams = res.data
+        var teams = res.data.filter(function (team) { return +new Date(team.created) < +new Date(this.$store.competition.end) })
         if (request !== false) this.origTeams = teams
         if (!this.showIneligible) {
-          teams = res.data.filter(function (team) { return team.eligible && +new Date(team.created) < +new Date(this.$store.competition.end) }.bind(this))
+          teams = res.data.filter(function (team) { return team.eligible }.bind(this))
         }
         this.number(teams)
         this.teams = teams

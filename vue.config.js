@@ -9,5 +9,12 @@ module.exports = {
   	devServer: {
   		disableHostCheck: true
   	}
+  },
+  css: {
+  	loaderOptions: {
+  		sass: {
+  			precision: 10
+  		}
+  	}
   }
 }

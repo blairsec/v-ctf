@@ -13,6 +13,7 @@
           <input v-model="eligible" type="checkbox">
           <span class="checkmark"></span>
         </label>
+        <div class="g-recaptcha" data-sitekey="6Lc9EJ8UAAAAAJ_pV0yiVUIytkDMgYk-LVO-Df0n"></div>
         <button type="submit">Sign Up</button>
       </form>
     </section>
@@ -32,7 +33,7 @@ export default {
   },
   methods: {
     createUser () {
-      this.post('/users', { username: this.username, password: this.password, email: this.email, eligible: this.eligible }).then(function () {
+      this.post('/users', { username: this.username, password: this.password, email: this.email, eligible: this.eligible }, true, { captcha: grecaptcha.getResponse() }).then(function () {
         this.alert('Success!', 'You have created an account. Log in to get started!', 'success')
         this.email = ''
         this.username = ''

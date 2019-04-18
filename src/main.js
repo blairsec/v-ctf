@@ -13,8 +13,8 @@ Vue.mixin({
     markdown (text) {
       return marked(text)
     },
-    post (route, data, competition) {
-      return axios.post(config.API_URL + (competition === false ? '' : ('/competitions/' + this.$store.competition.id)) + route, data, this.$store.competition ? { headers: { Authorization: 'Token ' + localStorage['competition_' + this.$store.competition.id] } } : {})
+    post (route, data, competition, headers) {
+      return axios.post(config.API_URL + (competition === false ? '' : ('/competitions/' + this.$store.competition.id)) + route, data, this.$store.competition ? { headers: {...(headers ? headers : {}), ...{ Authorization: 'Token ' + localStorage['competition_' + this.$store.competition.id] } } } : {})
     },
     get (route, competition) {
       return axios.get(config.API_URL + (competition === false ? '' : ('/competitions/' + this.$store.competition.id)) + route, this.$store.competition ? { headers: { Authorization: 'Token ' + localStorage['competition_' + this.$store.competition.id] } } : {})

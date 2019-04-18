@@ -13,7 +13,7 @@
           <input v-model="eligible" type="checkbox">
           <span class="checkmark"></span>
         </label>
-        <div class="g-recaptcha" data-sitekey="6Lc9EJ8UAAAAAJ_pV0yiVUIytkDMgYk-LVO-Df0n"></div>
+        <div id="captcha"></div>
         <button type="submit">Sign Up</button>
       </form>
     </section>
@@ -55,6 +55,13 @@ export default {
         })
       }
     })
+  },
+  mounted () {
+    if (window.grecaptcha) {
+      grecaptcha.render('captcha', {
+        'sitekey': '6Lc9EJ8UAAAAAJ_pV0yiVUIytkDMgYk-LVO-Df0n'
+      })
+    }
   }
 }
 </script>

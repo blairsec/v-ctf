@@ -23,7 +23,7 @@
           <div class="solves">{{ challenge.solves }}</div>
           <p class="description" v-html="markdown(challenge.description)"></p>
           <p>Author: {{ challenge.author }}</p>
-          <button class="hintButton" @click="toggleHint(challenge.id)" v-if="challenge.hint">{{ showHint[challenge.id] ? 'Hide' : 'Show' }} Hint</button>
+          <button class="hintButton" @click="toggleHint(challenge.id)" v-if="challenge.hint.trim()">{{ showHint[challenge.id] ? 'Hide' : 'Show' }} Hint</button>
           <button class="hintButton" @click="toggleSolves(challenge.id)">{{ showSolves[challenge.id] ? 'Hide' : 'Show' }} Solves</button>
           <transition name="challengeHintTransition">
             <p class="hint" v-html="markdown(challenge.hint)" v-if="challenge.hint && showHint[challenge.id]"></p>

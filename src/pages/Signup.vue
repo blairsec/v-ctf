@@ -41,6 +41,7 @@ export default {
         this.eligible = false
         this.$router.push('/login')
       }.bind(this)).catch(function (error) {
+        grecaptcha.reset()
         if (error.response.data.message === 'invalid_values' && this.password.length < 8) this.alert('Whoops!', 'Make sure your password is at least 8 characters long.', 'failure')
         else if (error.response.data.message === 'invalid_values') this.alert('Whoops!', 'Make sure all required fields are filled out.', 'failure')
         else if (error.response.data.message === 'username_email_conflict') this.alert('Uh-oh!', 'An account with that username or email already exists.', 'failure')

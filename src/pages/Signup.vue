@@ -13,7 +13,7 @@
           <input v-model="eligible" type="checkbox">
           <span class="checkmark"></span>
         </label>
-        <br><div id="captcha"></div>
+        <div id="captcha"></div>
         <button type="submit">Sign Up</button>
       </form>
     </section>

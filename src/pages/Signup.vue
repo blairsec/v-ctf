@@ -39,6 +39,7 @@ export default {
         this.username = ''
         this.password = ''
         this.eligible = false
+        this.$router.push('/login')
       }.bind(this)).catch(function (error) {
         if (error.response.data.message === 'invalid_values' && this.password.length < 8) this.alert('Whoops!', 'Make sure your password is at least 8 characters long.', 'failure')
         else if (error.response.data.message === 'invalid_values') this.alert('Whoops!', 'Make sure all required fields are filled out.', 'failure')

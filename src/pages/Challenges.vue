@@ -2,7 +2,7 @@
   <main class="challenges">
     <h1>Challenges</h1>
     <section>
-      <span style="font-size: 1.5em;" class="veryimportant"><strong>Attention: ångstromCTF's end date has been moved up to 8 PM EDT April 24 in order to give CTFTime points to teams.</strong></span>
+      <span style="font-size: 1.5em;"><strong>Attention: ångstromCTF's end date has been moved up to 8 PM EDT April 24 in order to give CTFTime points to teams.</strong></span>
       <div v-if="competitionNotStarted">
         <p>The competition has not started yet. Come back later!</p>
       </div>
@@ -149,13 +149,4 @@ export default {
 
 <style scoped lang="scss">
 @import '../theme/challenges';
-
-@keyframes flash {
-    from {color:white;}
-    to {color:red;}
-}
-
-.veryimportant {
-    animation: flash 2s cubic-bezier(1,0,1,1) infinite alternate;
-}
 </style>

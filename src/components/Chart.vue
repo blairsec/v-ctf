@@ -64,14 +64,17 @@ export default {
             score: teams[t].solves.map(s => s.challenge.value).reduce((a, b) => a + b, 0)
           })
           var score = 0
-          teams[t].solves.sort(function (a, b) { return +new Date(a.time) - +new Date(b.time) })
+          teams[t].solves.sort(function (a, b) { return +new Date(a.
+          ) - +new Date(b.time) })
           for (var s = 0; s < teams[t].solves.length; s++) {
-            score += teams[t].solves[s].challenge.value
-            var time = +new Date(teams[t].solves[s].time)
-            lines[lines.length - 1].points.push([
-              time,
-              score
-            ])
+            if (+new Date(teams[t].solves[s].time) <= +new Date(this.$store.competition.end)) {
+              score += teams[t].solves[s].challenge.value
+              var time = +new Date(teams[t].solves[s].time)
+              lines[lines.length - 1].points.push([
+                time,
+                score
+              ])
+            }
           }
         }
       }

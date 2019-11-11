@@ -2,7 +2,6 @@
   <main class="challenges">
     <h1>Challenges</h1>
     <section>
-      <span style="font-size: 1.5em;"><strong>Attention: ångstromCTF's end date has been moved up to 8 PM EDT April 24 in order to give CTFTime points to teams.</strong></span>
       <div v-if="competitionNotStarted">
         <p>The competition has not started yet. Come back later!</p>
       </div>

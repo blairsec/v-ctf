@@ -7,7 +7,7 @@
       <label class="checkbox-container">Show ineligible teams
         <input v-model="showIneligible" type="checkbox">
         <span class="checkmark"></span>
-      </label>&ensp;
+      </label>
       <label class="checkbox-container" v-if="new Date($store.competition.end) < new Date()">Freeze scoreboard
         <input v-model="freeze" type="checkbox">
         <span class="checkmark"></span>

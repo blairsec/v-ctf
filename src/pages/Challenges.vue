@@ -146,6 +146,6 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 @import '../theme/challenges';
 </style>

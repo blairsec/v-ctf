@@ -53,7 +53,7 @@ export default {
     }
   },
   methods: {
-    updatePoints (teams, keepChallenges) {
+    updatePoints (teams, freeze) {
       this.teams = teams
       var lines = []
       for (var t = 0; t < teams.length; t++) {
@@ -66,7 +66,7 @@ export default {
           var score = 0
           teams[t].solves.sort(function (a, b) { return +new Date(a.time) - +new Date(b.time) })
           for (var s = 0; s < teams[t].solves.length; s++) {
-            if (+new Date(teams[t].solves[s].time) <= +new Date(this.$store.competition.end)) {
+            if (!freeze || +new Date(teams[t].solves[s].time) < +new Date(this.$store.competition.end)) {
               score += teams[t].solves[s].challenge.value
               var time = +new Date(teams[t].solves[s].time)
               lines[lines.length - 1].points.push([

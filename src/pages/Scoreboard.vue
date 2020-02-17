@@ -3,10 +3,16 @@
   <main class="scoreboard">
     <h1>Scoreboard</h1>
     <chart ref="chart"></chart>
-    <label class="checkbox-container">Show ineligible teams
-      <input v-model="showIneligible" type="checkbox">
-      <span class="checkmark"></span>
-    </label>
+    <div class="scoreboard-filters">
+      <label class="checkbox-container">Show ineligible teams
+        <input v-model="showIneligible" type="checkbox">
+        <span class="checkmark"></span>
+      </label>&ensp;
+      <label class="checkbox-container" v-if="new Date($store.competition.end) < new Date()">Freeze scoreboard
+        <input v-model="freeze" type="checkbox">
+        <span class="checkmark"></span>
+      </label>
+    </div>
     <section>
       <table class="scoreboard">
         <thead>
@@ -40,6 +46,7 @@ export default {
       teams: [],
       origTeams: [],
       showIneligible: true,
+      freeze: true,
       interval: null
     }
   },
@@ -52,6 +59,9 @@ export default {
     },
     showIneligible () {
       this.loadTeams(false)
+    },
+    freeze () {
+      this.loadTeams()
     }
   },
   methods: {
@@ -60,10 +70,10 @@ export default {
       if (request === false) {
         promise = new Promise(function (resolve, reject) { resolve({ data: this.origTeams }) }.bind(this))
       } else {
-        promise = this.get('/teams')
+        promise = this.get('/teams' + (this.freeze ? '?frozen=1' : ''))
       }
       promise.then(function (res) {
-        var teams = res.data.filter(function (team) { return +new Date(team.created) < +new Date(this.$store.competition.end) }.bind(this))
+        var teams = res.data.filter(function (team) { return !this.freeze || (+new Date(team.created) < +new Date(this.$store.competition.end)) }.bind(this))
         if (request !== false) this.origTeams = teams
         if (!this.showIneligible) {
           teams = res.data.filter(function (team) { return team.eligible }.bind(this))
@@ -79,7 +89,7 @@ export default {
             chartTeams[i] = this.get('/teams/' + chartTeams[i].id)
           }
           Promise.all(chartTeams).then(function (responseList) {
-            this.$refs.chart.updatePoints(responseList.map(res => res.data))
+            this.$refs.chart.updatePoints(responseList.map(res => res.data), this.freeze)
           }.bind(this))
         }
       }.bind(this))

@@ -44,6 +44,7 @@ export default {
     loadShell () {
       this.get('/shell/team/' + this.$store.user.team.id).then(function (res) {
         this.shell = res.data
+        this.webshell_url = process.env.VUE_APP_WEB_SHELL_URL+'#'+this.shell.username+':'+this.shell.password
       }.bind(this))
     }
   },
@@ -58,7 +59,6 @@ export default {
     })
   },
   mounted () {
-    this.webshell_url = process.env.VUE_APP_WEB_SHELL_URL
     this.loadShell()
   }
 }

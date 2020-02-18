@@ -3,9 +3,7 @@
       <iframe :src="webshell_url" class="shellframe"></iframe>
       <p v-if="$store.user && (!$store.user.team || !$store.user.team.id)">You must create or join a team to receive credentials for the shell server.</p>
       <div v-if="$store.user && $store.user.team && $store.user.team.id">
-        <p>Log in with the following credentials:
-        <ul><li>Username: <code>{{ shell.username }}</code></li>
-        <li>Password: <code>{{ shell.password }}</code></li></ul></p>
+        <p>You may view your shell server credentials on the <router-link to="/profile">profile page</router-link>.</p>
       </div>
     </main>
 </template>

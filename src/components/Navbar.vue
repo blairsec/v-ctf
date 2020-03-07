@@ -3,7 +3,7 @@
     <ul>
       <li><router-link :to="{ name: 'Home' }">Home</router-link></li>
       <li><router-link :to="{ name: 'About' }">About</router-link></li>
-      <li><a :href="chat_url">Chat</a></li>
+      <li><a :href="chat_url" target="_blank" rel="noopener">Chat</a></li>
       <li><router-link :to="{ name: 'Scoreboard' }">Scoreboard</router-link></li>
       <li v-if="$store.competition.id"><router-link :to="{ name: 'Challenges' }">Challenges</router-link></li>
       <li v-if="$store.competition.id && $store.user.id && $store.user.team && $store.user.team.id"><router-link :to="{ name: 'Shell' }">Shell</router-link></li>

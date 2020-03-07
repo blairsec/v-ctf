@@ -27,7 +27,7 @@
 export default {
   name: 'Navbar',
   computed: {
-    chat_url () { return process.env.VUE_APP_CHAT_URL }
+    chat_url () { return process.env.VUE_APP_CHAT_URL },
     subdomains () { return process.env.VUE_APP_COMPETITION_SUBDOMAINS },
     root () { return location.host.split('.').slice(1).join('.') }
   }

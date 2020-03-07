@@ -1,6 +1,6 @@
 <template>
   <main class="chat">
-    <iframe class="irc" :src="chat_url" style="width:100%; height:100%;"></iframe>
+    <p>Join the <a :href="chat_url">competition chat</a> for support!</p>
   </main>
 </template>
 

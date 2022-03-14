@@ -4,7 +4,9 @@ module.exports = {
   runtimeCompiler: true,
   configureWebpack: {
   	plugins: [
-  		new CopyWebpackPlugin([{ from: 'src/theme/favicon.png', to: 'public/favicon.png' }])
+  		new CopyWebpackPlugin({
+            patterns: [{ from: 'src/theme/favicon.png', to: 'public/favicon.png' }]
+        })
   	],
   	devServer: {
   		disableHostCheck: true
@@ -13,7 +15,9 @@ module.exports = {
   css: {
   	loaderOptions: {
   		sass: {
-  			precision: 10
+            sassOptions: {
+                precision: 10
+            }
   		}
   	}
   }

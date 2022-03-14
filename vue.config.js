@@ -9,7 +9,9 @@ module.exports = {
         })
   	],
   	devServer: {
-  		disableHostCheck: true
+        allowedHosts: 'all',
+        host: '0.0.0.0',
+        port: 8080
   	}
   },
   css: {

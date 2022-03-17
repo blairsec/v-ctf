@@ -6,6 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
+    "build-all-themes": "./build-all.sh",
     "build-theme": "./build-one.sh"
   },
   "dependencies": {

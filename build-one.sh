@@ -9,9 +9,11 @@ fi
 
 [ -h src/theme ] && unlink src/theme
 ln -s ../themes/$theme src/theme
+
 echo "============================"
 echo "Building $theme..."
 echo "============================"
+
 npm run build
 rm -rf builds/$theme
 mv dist builds/$theme

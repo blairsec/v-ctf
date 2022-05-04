@@ -6,7 +6,7 @@
       <li><a :href="chat_url" target="_blank" rel="noopener">Chat</a></li>
       <li><router-link :to="{ name: 'Scoreboard' }">Scoreboard</router-link></li>
       <li v-if="$store.competition.id"><router-link :to="{ name: 'Challenges' }">Challenges</router-link></li>
-      <li v-if="$store.competition.id && $store.user.id && $store.user.team && $store.user.team.id"><router-link :to="{ name: 'Shell' }">Shell</router-link></li>
+      <!-- <li v-if="$store.competition.id && $store.user.id && $store.user.team && $store.user.team.id"><router-link :to="{ name: 'Shell' }">Shell</router-link></li> -->
       <span class="divider"></span>
       <li v-if="$store.competition"><span>{{ $store.competition.name }} <span class="darr">&#9660;</span></span>
         <ul>

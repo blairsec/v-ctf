@@ -56,14 +56,14 @@
         <p>You must verify your email before creating or joining a team.</p>
       </div>
     </section>
-    <h1 v-if="$store.user.team && $store.user.team.id">Shell</h1>
+    <!-- <h1 v-if="$store.user.team && $store.user.team.id">Shell</h1>
     <section class="shell" v-if="$store.user.team && $store.user.team.id">
       <p>Connect to the shell server on the <router-link to="/shell">shell</router-link> page, or ssh to <code>{{ shell_url }}</code>.</p>
       <table>
         <tr><td>Username</td><td><code>{{ shell.username }}</code></td></tr>
         <tr><td>Password</td><td><code>{{ shell.password }}</code></td></tr>
       </table>
-    </section>
+    </section> -->
   </main>
 </template>
 
